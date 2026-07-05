@@ -1,4 +1,4 @@
-# backend/modules/m3_debate.py
+# backend/modules/m06_debate.py
 """
 Debate Module — runs 4 department personas in parallel via Groq.
 Each persona now receives its own slice of real CRM data to reason from.

@@ -1,4 +1,4 @@
-# backend/modules/m_friction.py
+# backend/modules/m02_friction.py
 """
 Module 2 — Cognitive Friction Engine
 Decides how much thinking is required based on question complexity.

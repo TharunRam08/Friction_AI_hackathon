@@ -1,4 +1,4 @@
-# backend/modules/m6_nemotron.py
+# backend/modules/m09_nemotron.py
 """
 Module 15 — Recommendation Generator + Module 16 — Explainability Engine
 Synthesizes ALL pipeline outputs into a rich executive briefing.
@@ -68,10 +68,16 @@ You have completed a full cognitive analysis pipeline. Now produce the final exe
 You do NOT sound like ChatGPT. You sound like a Board-level advisor with real data.
 Your output is NOT generic. Every sentence references specific numbers from the context.
 
+GLOBAL SYNTHESIS & FORMATTING CONSTRAINTS:
+- Synthesize information rather than repeating the exact same key phrases (e.g., 'lack of warehouse space') verbatim across the context_explanation, verdict, stats_explanation, and root_cause_summary sections. Vary phrasing and emphasize different aspects of the metrics in each section.
+- Decision Verdict: Must be exactly 1 to 2 punchy, definitive sentences. No fluff.
+- Statistical & Decision Logic: Must be formatted as exactly 3 short, strategic bullet points. Do strictly prohibit paragraph format here.
+- Immediate Action Steps: Must use concise bullet points inside each action plan step instead of walls of text.
+
 Produce a JSON object with this EXACT shape:
 
 {
-  "verdict": "A definitive, authoritative verdict sentence explaining the exact decision and the primary strategic justification.",
+  "verdict": "Exactly 1 to 2 punchy, definitive sentences explaining the exact decision and the primary strategic justification. No fluff.",
   
   "context_explanation": "A deeply detailed, comprehensive analysis (3-4 paragraphs) outlining the business context. Explicitly reference live CRM metrics (e.g. employee count, MRR, won/lost ARR, support queue load, inventory status, campaign ROI). Detail how these metrics connect to the user's specific business dilemma and explain the operational landscape.",
   
@@ -79,7 +85,7 @@ Produce a JSON object with this EXACT shape:
     {"label": "string", "value": "string", "trend": "up"|"down"|"stable"|"warning"}
   ],
   
-  "stats_explanation": "A thorough, multi-paragraph strategic breakdown analyzing the key metrics listed above. Explain why these numbers matter, what underlying operational inefficiencies or opportunities they signal, and how they dictate the trade-offs in this decision.",
+  "stats_explanation": "Exactly 3 short, strategic bullet points outlining the decision logic based on the stats above. Prohibit paragraphs completely.",
   
   "narrative": "A highly detailed executive briefing summarizing the strategic trade-offs, potential bottlenecks, and long-term organizational impact.",
   
@@ -116,7 +122,7 @@ Produce a JSON object with this EXACT shape:
   "action_plan": [
     {
       "title": "Concise step title",
-      "step": "A comprehensive, step-by-step instruction explaining EXACTLY how the business owner should execute this action, who needs to be involved, what success metrics to track, and potential implementation pitfalls.",
+      "step": "Concise bullet points outlining how the business owner should execute this step (who is involved, success metrics, potential pitfalls). Do not use walls of text.",
       "timeframe": "Specific execution window (e.g. this week, this month, in 3 months)"
     }
   ],

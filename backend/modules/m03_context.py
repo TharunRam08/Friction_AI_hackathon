@@ -1,4 +1,4 @@
-# backend/modules/m_context.py
+# backend/modules/m03_context.py
 """
 Module 3 — Context Builder
 Gathers real-time CRM business snapshot BEFORE reasoning starts.

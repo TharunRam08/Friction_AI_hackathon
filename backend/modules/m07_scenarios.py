@@ -1,4 +1,4 @@
-# backend/modules/m_scenarios.py
+# backend/modules/m07_scenarios.py
 """
 Module 9 — Scenario Simulation + Module 10 — Devil's Advocate + Module 11 — Regret Simulation
 Generates 3 alternative futures, attacks each, then picks lowest-regret option.

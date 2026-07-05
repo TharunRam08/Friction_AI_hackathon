@@ -271,9 +271,9 @@ function RichOutputCard({ output, frictionLevel, pipelineExecuted }) {
         {confidence > 0 && (
           <div className="flex items-center gap-3">
             <div className="flex-1 h-1.5 bg-[#1d1d2a] rounded-full overflow-hidden max-w-[200px]">
-              <div className="h-full bg-blue-500 rounded-full" style={{ width: `${confidence}%` }} />
+              <div className="h-full bg-blue-500 rounded-full" style={{ width: `${Math.round(confidence)}%` }} />
             </div>
-            <span className="text-[11.5px] font-bold text-blue-400">{confidence}% confidence score</span>
+            <span className="text-[11.5px] font-bold text-blue-400">{Math.round(confidence)}% confidence score</span>
           </div>
         )}
       </div>
@@ -445,7 +445,7 @@ function RichOutputCard({ output, frictionLevel, pipelineExecuted }) {
             <div className="bg-[#111213] border border-[#1e1e22] p-5 rounded-xl space-y-4">
               <div className="flex items-center justify-between">
                 <div className="text-[10px] font-bold text-zinc-500 tracking-widest uppercase">Confidence Weighting Breakdown</div>
-                <span className="text-white text-[13px] font-mono font-bold">{confidence}% weight score</span>
+                <span className="text-white text-[13px] font-mono font-bold">{Math.round(confidence)}% weight score</span>
               </div>
               <div className="grid grid-cols-2 gap-3.5">
                 {[
@@ -502,7 +502,7 @@ function RichOutputCard({ output, frictionLevel, pipelineExecuted }) {
                   <Brain className="w-3.5 h-3.5 text-purple-400" />
                 </div>
                 <div className="space-y-1">
-                  <div className="text-[10px] font-bold text-purple-400 tracking-widest uppercase">Cerebra Business Memory</div>
+                  <div className="text-[10px] font-bold text-purple-400 tracking-widest uppercase">Friction Business Memory</div>
                   {mistakeCtx && <div className="text-[12px] text-zinc-300">{mistakeCtx}</div>}
                   {patternMatch && <div className="text-[11px] text-purple-300 font-semibold mt-1">Cross-case Pattern: {patternMatch}</div>}
                 </div>
@@ -574,6 +574,7 @@ function App() {
   const [dataSources, setDataSources]   = useState([]);
   const [sourcesLoading, setSrcLoading] = useState(true);
   const [activeSource, setActiveSource] = useState(null);
+  const [currentPage, setCurrentPage]   = useState('dashboard');
   const messagesEndRef = useRef(null);
 
   // Fetch data sources on mount
@@ -603,34 +604,75 @@ function App() {
   // Auto-scroll
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, loadingStepIdx]);
 
-  // Animate pipeline steps while loading
+  // Animate pipeline steps while loading (Labor Illusion with Variable Jitter)
   useEffect(() => {
     const loading = messages.find(m => m.loading);
-    if (!loading) { setLoadingIdx(null); return; }
-    setLoadingIdx(0);
-    const iv = setInterval(() => {
-      setLoadingIdx(prev => {
-        if (prev === null) return 0;
-        return prev < ALL_PIPELINE_STEPS.length - 1 ? prev + 1 : prev;
-      });
-    }, 500);
-    return () => clearInterval(iv);
-  }, [messages]);
+    if (!loading) {
+      setLoadingIdx(null);
+      return;
+    }
+
+    // Initialize step index to 0 if starting a new animation session
+    if (loadingStepIdx === null) {
+      setLoadingIdx(0);
+      return;
+    }
+
+    // If we reached the final Decide/Learning step (Module 16, index 15)
+    if (loadingStepIdx >= ALL_PIPELINE_STEPS.length - 1) {
+      const activeMsg = messages.find(m => m.loading && m.pendingResult);
+      if (activeMsg) {
+        // Dismiss loading instantly now that both animation and API have finished
+        setTimeout(() => {
+          setMessages(currentMsgs =>
+            currentMsgs.map(m =>
+              m.id === activeMsg.id
+                ? { ...m, result: activeMsg.pendingResult, loading: false }
+                : m
+            )
+          );
+        }, 0);
+      }
+      return;
+    }
+
+    // Calculate variable jitter delay based on the phase of the current step
+    const currentStep = ALL_PIPELINE_STEPS[loadingStepIdx];
+    const currentPhase = currentStep.group;
+    let delay = 2000;
+
+    if (currentPhase === 'Understand') {
+      // Understand: 1200ms - 2000ms
+      delay = Math.floor(Math.random() * (2000 - 1200 + 1)) + 1200;
+    } else if (currentPhase === 'Analyze' || currentPhase === 'Reason') {
+      // Analyze & Reason: 2500ms - 3500ms (simulate heavy processing)
+      delay = Math.floor(Math.random() * (3500 - 2500 + 1)) + 2500;
+    } else {
+      // Verify & Decide (prior to final step): 1500ms - 2500ms
+      delay = Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500;
+    }
+
+    const t = setTimeout(() => {
+      setLoadingIdx(prev => (prev !== null && prev < ALL_PIPELINE_STEPS.length - 1 ? prev + 1 : prev));
+    }, delay);
+
+    return () => clearTimeout(t);
+  }, [messages, loadingStepIdx]);
 
   const handleSubmit = async (text) => {
     const q = text || question;
     if (!q.trim()) return;
     const id = Date.now();
-    setMessages(prev => [...prev, { id, question: q, result: null, loading: true }]);
+    setMessages(prev => [...prev, { id, question: q, result: null, loading: true, pendingResult: null }]);
     setQuestion('');
     try {
       const r = await axios.post(`${API}/reason`, { question: q });
-      setMessages(prev => prev.map(m => m.id === id ? { ...m, result: r.data, loading: false } : m));
+      setMessages(prev => prev.map(m => m.id === id ? { ...m, pendingResult: r.data } : m));
     } catch {
       // Fallback
       setTimeout(() => {
         setMessages(prev => prev.map(m => m.id === id ? {
-          ...m, loading: false, result: {
+          ...m, pendingResult: {
             friction_level: 'MEDIUM',
             pipeline_executed: ['Intent', 'Friction', 'Context', 'Memory'],
             intent: { goal: 'strategic analysis', constraints: [] },
@@ -672,10 +714,30 @@ function App() {
       {isSidebarOpen && (
         <div className="w-[268px] bg-[#111112] border-r border-[#1c1c1f] flex flex-col flex-shrink-0 select-none">
           <div className="flex-1 overflow-y-auto p-5 space-y-7">
-            {/* Logo */}
-            <div className="flex items-center gap-3 pt-1">
-              <div className="w-6 h-6 bg-white rounded-md flex-shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.12)]" />
-              <span className="text-[17px] font-bold text-white tracking-wide">Friction</span>
+            {/* Brand Logo & Navigation */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 pt-1">
+                <div className="w-9 h-9 bg-[#f4f4f5] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden shadow-[0_0_8px_rgba(255,255,255,0.05)] border border-[#232325]">
+                  <img src="/logo.png" className="w-[140%] h-[140%] max-w-none object-cover" alt="Friction Logo" />
+                </div>
+                <div className="flex flex-col justify-center leading-none">
+                  <span className="text-[20px] font-bold text-white tracking-wider uppercase" style={{ fontFamily: "'Oswald', sans-serif" }}>Friction</span>
+                  <span className="text-[8.5px] text-zinc-500 font-semibold tracking-wider mt-0.5 uppercase">AI Business Reasoning Engine</span>
+                </div>
+              </div>
+
+              <div className="space-y-1 pt-2 border-t border-[#1a1a1c]">
+                <button onClick={() => setCurrentPage('dashboard')}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'dashboard' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
+                  <Sparkles className="w-3.5 h-3.5 text-zinc-500" />
+                  <span>Decision Dashboard</span>
+                </button>
+                <button onClick={() => setCurrentPage('architecture')}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'architecture' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
+                  <GitBranch className="w-3.5 h-3.5 text-zinc-500" />
+                  <span>Engine Architecture</span>
+                </button>
+              </div>
             </div>
 
             {/* ── DATA SOURCES ── */}
@@ -798,111 +860,273 @@ function App() {
           )}
         </div>
 
-        {/* Chat area */}
-        <div className="flex-1 overflow-y-auto px-8 py-6 space-y-8 max-w-4xl w-full mx-auto flex flex-col">
+        {/* Content Tab Router */}
+        {currentPage === 'architecture' ? (
+          <ArchitecturePage />
+        ) : (
+          <div className="flex-1 overflow-y-auto px-8 py-6 space-y-8 max-w-4xl w-full mx-auto flex flex-col">
 
-          {messages.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center py-16 space-y-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-500/10">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <div className="space-y-2">
-                <h2 className="text-xl font-bold text-white tracking-tight">Friction Decision Engine</h2>
-                <p className="text-zinc-500 text-sm max-w-md">
-                  A 16-module cognitive pipeline: Intent → Friction Routing → Context → Memory → Root Cause → Debate → Evidence → Scenarios → Synthesis.
-                  Grounded in your real CRM data.
-                </p>
-              </div>
-              {/* Dataset quick-view pills */}
-              {dataSources.length > 0 && (
-                <div className="flex gap-2 flex-wrap justify-center pt-2">
-                  {dataSources.map(src => (
-                    <button key={src.id} onClick={() => setActiveSource(src)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-[#131314] border border-[#1e1e21] hover:border-zinc-700 rounded-lg text-[11px] font-semibold text-zinc-500 hover:text-zinc-200 transition group">
-                      <SrcIcon name={src.icon} className="w-3 h-3 text-blue-500" />
-                      {src.row_count} {src.label}
-                      <ArrowUpRight className="w-2.5 h-2.5 text-zinc-700 group-hover:text-zinc-400" />
+            {messages.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-center py-16 space-y-6">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-500/10">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="text-xl font-bold text-white tracking-tight">Friction Decision Engine</h2>
+                  <p className="text-zinc-500 text-sm max-w-md">
+                    A 16-module cognitive pipeline: Intent → Friction Routing → Context → Memory → Root Cause → Debate → Evidence → Scenarios → Synthesis.
+                    Grounded in your real CRM data.
+                  </p>
+                </div>
+                {/* Dataset quick-view pills */}
+                {dataSources.length > 0 && (
+                  <div className="flex gap-2 flex-wrap justify-center pt-2">
+                    {dataSources.map(src => (
+                      <button key={src.id} onClick={() => setActiveSource(src)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#131314] border border-[#1e1e21] hover:border-zinc-700 rounded-lg text-[11px] font-semibold text-zinc-500 hover:text-zinc-200 transition group">
+                        <SrcIcon name={src.icon} className="w-3 h-3 text-blue-500" />
+                        {src.row_count} {src.label}
+                        <ArrowUpRight className="w-2.5 h-2.5 text-zinc-700 group-hover:text-zinc-400" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {/* Starter queries */}
+                <div className="w-full max-w-xl grid grid-cols-2 gap-2.5 pt-2">
+                  {[
+                    { q: 'Should we hire more sales reps?',     desc: 'Team capacity & pipeline analysis' },
+                    { q: 'Should we open another branch?',       desc: 'Expansion risk & past cases' },
+                    { q: 'What is our biggest customer risk?',   desc: 'Churn & retention deep-dive' },
+                    { q: 'Should we delay the product launch?',  desc: 'Tech readiness & market timing' },
+                  ].map((s, i) => (
+                    <button key={i} onClick={() => handleSubmit(s.q)}
+                      className="flex flex-col items-start text-left p-4 bg-[#121213] border border-[#212123] rounded-xl hover:border-zinc-700 hover:bg-[#18181a] transition group">
+                      <div className="flex items-center justify-between w-full">
+                        <span className="text-[12.5px] font-semibold text-zinc-300 group-hover:text-white transition">{s.q}</span>
+                        <ArrowUpRight className="w-3 h-3 text-zinc-600 group-hover:text-zinc-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                      </div>
+                      <span className="text-[11px] text-zinc-600 mt-1">{s.desc}</span>
                     </button>
                   ))}
                 </div>
-              )}
-              {/* Starter queries */}
-              <div className="w-full max-w-xl grid grid-cols-2 gap-2.5 pt-2">
-                {[
-                  { q: 'Should we hire more sales reps?',     desc: 'Team capacity & pipeline analysis' },
-                  { q: 'Should we open another branch?',       desc: 'Expansion risk & past cases' },
-                  { q: 'What is our biggest customer risk?',   desc: 'Churn & retention deep-dive' },
-                  { q: 'Should we delay the product launch?',  desc: 'Tech readiness & market timing' },
-                ].map((s, i) => (
-                  <button key={i} onClick={() => handleSubmit(s.q)}
-                    className="flex flex-col items-start text-left p-4 bg-[#121213] border border-[#212123] rounded-xl hover:border-zinc-700 hover:bg-[#18181a] transition group">
-                    <div className="flex items-center justify-between w-full">
-                      <span className="text-[12.5px] font-semibold text-zinc-300 group-hover:text-white transition">{s.q}</span>
-                      <ArrowUpRight className="w-3 h-3 text-zinc-600 group-hover:text-zinc-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                    </div>
-                    <span className="text-[11px] text-zinc-600 mt-1">{s.desc}</span>
-                  </button>
-                ))}
               </div>
-            </div>
-          ) : (
-            messages.map(msg => (
-              <div key={msg.id} className="space-y-4 flex flex-col">
-                {/* User bubble */}
-                <div className="flex items-center justify-between self-end bg-[#161617] border border-[#232325] rounded-xl px-4 py-2.5 max-w-lg">
-                  <span className="text-[13px] font-medium text-zinc-100 pr-3">{msg.question}</span>
-                  <MoreHorizontal className="w-4 h-4 text-zinc-600 flex-shrink-0" />
-                </div>
-
-                {msg.loading ? (
-                  <div className="bg-[#111213] border border-[#1e1e22] rounded-xl p-8 flex flex-col items-center space-y-4">
-                    <Loader2 className="w-7 h-7 text-blue-500 animate-spin" />
-                    <div className="text-center">
-                      <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest animate-pulse">
-                        Module {(loadingStepIdx || 0) + 1} of {ALL_PIPELINE_STEPS.length}
-                      </div>
-                      <div className={`text-[14px] font-bold mt-1 ${PHASE_COLORS[ALL_PIPELINE_STEPS[loadingStepIdx||0]?.group]}`}>
-                        {ALL_PIPELINE_STEPS[loadingStepIdx || 0]?.group} Phase
-                      </div>
-                      <div className="text-[12px] text-zinc-500 mt-0.5">
-                        {ALL_PIPELINE_STEPS[loadingStepIdx || 0]?.label}
-                      </div>
-                    </div>
+            ) : (
+              messages.map(msg => (
+                <div key={msg.id} className="space-y-4 flex flex-col">
+                  {/* User bubble */}
+                  <div className="flex items-center justify-between self-end bg-[#161617] border border-[#232325] rounded-xl px-4 py-2.5 max-w-lg">
+                    <span className="text-[13px] font-medium text-zinc-100 pr-3">{msg.question}</span>
+                    <MoreHorizontal className="w-4 h-4 text-zinc-600 flex-shrink-0" />
                   </div>
-                ) : (
-                  msg.result && (
-                    <RichOutputCard
-                      output={msg.result.output}
-                      frictionLevel={msg.result.friction_level}
-                      pipelineExecuted={msg.result.pipeline_executed}
-                    />
-                  )
-                )}
-              </div>
-            ))
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+
+                  {msg.loading ? (
+                    <div className="bg-[#111213] border border-[#1e1e22] rounded-xl p-8 flex flex-col items-center space-y-4">
+                      <Loader2 className="w-7 h-7 text-blue-500 animate-spin" />
+                      <div className="text-center">
+                        <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest animate-pulse">
+                          Module {(loadingStepIdx || 0) + 1} of {ALL_PIPELINE_STEPS.length}
+                        </div>
+                        <div className={`text-[14px] font-bold mt-1 ${PHASE_COLORS[ALL_PIPELINE_STEPS[loadingStepIdx||0]?.group]}`}>
+                          {ALL_PIPELINE_STEPS[loadingStepIdx || 0]?.group} Phase
+                        </div>
+                        <div className="text-[12px] text-zinc-500 mt-0.5">
+                          {ALL_PIPELINE_STEPS[loadingStepIdx || 0]?.label}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    msg.result && (
+                      <RichOutputCard
+                        output={msg.result.output}
+                        frictionLevel={msg.result.friction_level}
+                        pipelineExecuted={msg.result.pipeline_executed}
+                      />
+                    )
+                  )}
+                </div>
+              ))
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
 
         {/* Input bar */}
-        <div className="p-6 bg-[#0d0d0e] border-t border-[#1a1a1c] flex-shrink-0 flex justify-center">
-          <div className="max-w-4xl w-full flex gap-3">
-            <input
-              className="flex-1 bg-[#161617] border border-[#232325] text-zinc-200 text-[13.5px] rounded-xl px-4 py-3.5 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition"
-              placeholder="Ask a strategic business question…"
-              value={question}
-              onChange={e => setQuestion(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && !currentLoading && handleSubmit()}
-              disabled={!!currentLoading}
-            />
-            <button
-              onClick={() => handleSubmit()}
-              disabled={!!currentLoading || !question.trim()}
-              className="bg-[#161617] border border-[#232325] hover:bg-zinc-800 text-zinc-300 hover:text-white p-3.5 rounded-xl transition flex items-center justify-center disabled:opacity-40">
-              <Play className="w-4 h-4 fill-current stroke-none" />
-            </button>
+        {currentPage === 'dashboard' && (
+          <div className="p-6 bg-[#0d0d0e] border-t border-[#1a1a1c] flex-shrink-0 flex justify-center">
+            <div className="max-w-4xl w-full flex gap-3">
+              <input
+                className="flex-1 bg-[#161617] border border-[#232325] text-zinc-200 text-[13.5px] rounded-xl px-4 py-3.5 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition"
+                placeholder="Ask a strategic business question…"
+                value={question}
+                onChange={e => setQuestion(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && !currentLoading && handleSubmit()}
+                disabled={!!currentLoading}
+              />
+              <button
+                onClick={() => handleSubmit()}
+                disabled={!!currentLoading || !question.trim()}
+                className="bg-[#161617] border border-[#232325] hover:bg-zinc-800 text-zinc-300 hover:text-white p-3.5 rounded-xl transition flex items-center justify-center disabled:opacity-40">
+                <Play className="w-4 h-4 fill-current stroke-none" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ArchitecturePage() {
+  const [selectedPhase, setSelectedPhase] = useState('All');
+  
+  const phases = [
+    { 
+      num: 1,
+      name: 'UNDERSTAND', 
+      dotColor: '#3b82f6',
+      desc: 'Ingestion, intent classification, context assembly, and case memory search.',
+      steps: [
+        { num: 'M01', label: 'Intent Understanding', desc: 'Parses raw user prompts, isolates strategic variables, and configures constraints.', details: 'Classifies target entities, metric bounds, and time windows.' },
+        { num: 'M02', label: 'Friction Router', desc: 'Estimates decision load and schedules fast vs. slow reasoning pathways.', details: 'Determines whether to trigger slow-path multi-agent debate.' },
+        { num: 'M03', label: 'Context Resolver', desc: 'Queries live database tables dynamically based on intent keywords.', details: 'Retrieves relevant financials, pipeline deals, or headcount info.' },
+        { num: 'M04', label: 'Vector Memory RAG', desc: 'Pulls semantic matches from previous historical decisions and mistakes.', details: 'Loads top-k matched records using sentence-transformer embeddings.' },
+      ]
+    },
+    { 
+      num: 2,
+      name: 'ANALYZE', 
+      dotColor: '#f59e0b',
+      desc: 'Cognitive load estimation, root cause regression analysis, multi-agent debate simulation, and evidence checking.',
+      steps: [
+        { num: 'M05', label: 'Root Cause Analyzer', desc: 'Identifies deep-seated bottlenecks using regression trace diagnostic chains.', details: 'Calculates performance variances on raw operational metrics.' },
+        { num: 'M06', label: 'Multi-Agent Debate', desc: 'Simulates intense role-play debate between departmental directors.', details: 'Runs 4 parallel agents (Sales, Finance, Operations, Product).' },
+        { num: 'M07', label: 'Evidence Auditor', desc: 'Fact-checks and validates debate claims against ground-truth database rows.', details: 'Penalizes hallucinations or arguments conflicting with SQL data.' },
+      ]
+    },
+    { 
+      num: 3,
+      name: 'REASON', 
+      dotColor: '#a855f7',
+      desc: 'Strategic scenario forecasting, mini-max regret calculations, and contrarian testing.',
+      steps: [
+        { num: 'M08', label: 'Scenario Simulator', desc: 'Projects alternative outcomes, calculating revenue impacts and risk.', details: 'Models Conservative, Aggressive, and Balanced scenarios.' },
+        { num: 'M09', label: 'Devil\'s Advocate', desc: 'Actively constructs counter-arguments and identifies strategic blindspots.', details: 'Stresses test choices against risk parameters and market assumptions.' },
+        { num: 'M10', label: 'Regret Minimax Choice', desc: 'Formulates a regret matrix and isolates the lowest-regret option.', details: 'Calculates the pathway with the lowest worst-case downside.' },
+      ]
+    },
+    { 
+      num: 4,
+      name: 'VERIFY', 
+      dotColor: '#10b981',
+      desc: 'Confidence score weighting, hard limit checking, and self-review validation.',
+      steps: [
+        { num: 'M11', label: 'Confidence Weighting', desc: 'Aggregates weighting scores to issue a mathematical confidence percentage.', details: 'Weights debate consensus, memory similarity, and database checks.' },
+        { num: 'M12', label: 'Constraints Validator', desc: 'Cross-checks actions against hard resource and financial ceilings.', details: 'Enforces safety limits (e.g. payroll caps, inventory safety stock).' },
+        { num: 'M13', label: 'Self-Review Critique', desc: 'Conducts an honest, self-critical critique evaluating data gaps.', details: 'Identifies strategic information bounds and missing context.' },
+      ]
+    },
+    { 
+      num: 5,
+      name: 'DECIDE', 
+      dotColor: '#f43f5e',
+      desc: 'Executive synthesis, transparency trace trails, and learning loop retention.',
+      steps: [
+        { num: 'M14', label: 'Synthesis Engine', desc: 'Resolves agent disputes to issue a single strategic directive.', details: 'Employs NVIDIA Nemotron-3 as a Board CEO model for synthesis.' },
+        { num: 'M15', label: 'Explainability Trace', desc: 'Outputs auditable execution logs for each module in the reasoning tree.', details: 'Constructs the decision path explaining exact trade-offs.' },
+        { num: 'M16', label: 'Learning Feedback', desc: 'Saves conversation logs and outcomes into local vector memory.', details: 'Appends current choices to RAG vectors to improve future loops.' },
+      ]
+    }
+  ];
+
+  const phaseColors = {
+    UNDERSTAND: 'text-blue-400',
+    ANALYZE:    'text-amber-400',
+    REASON:     'text-purple-400',
+    VERIFY:     'text-emerald-400',
+    DECIDE:     'text-rose-400',
+  };
+
+  const filteredPhases = selectedPhase === 'All' ? phases : phases.filter(p => p.name.toLowerCase() === selectedPhase.toLowerCase());
+
+  return (
+    <div className="flex-1 overflow-y-auto px-8 py-8 space-y-8 max-w-7xl w-full mx-auto">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent tracking-tight uppercase inline-block" style={{ fontFamily: "'Oswald', sans-serif" }}>Cognitive Engine Pipeline</h1>
+        <p className="text-zinc-500 text-sm max-w-2xl">
+          Friction operates via a highly parallelized 5-phase, 16-module cognitive architecture. 
+          Modules within each phase share execution context and run in parallel pipelines.
+        </p>
+      </div>
+
+      {/* Phase selection tabs */}
+      <div className="flex gap-2 flex-wrap border-b border-[#1c1c1f] pb-4">
+        <button onClick={() => setSelectedPhase('All')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition border ${selectedPhase === 'All' ? 'bg-[#1a1a1c] border-[#2c2c30] text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}>
+          All Phases
+        </button>
+        {phases.map(p => {
+          const isActive = selectedPhase.toLowerCase() === p.name.toLowerCase();
+          const activeCls = isActive ? 'bg-[#1a1a1c] border-[#2c2c30] text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300';
+          const indicator = {
+            UNDERSTAND: 'bg-blue-500',
+            ANALYZE: 'bg-amber-500',
+            REASON: 'bg-purple-500',
+            VERIFY: 'bg-emerald-500',
+            DECIDE: 'bg-rose-500',
+          }[p.name] || 'bg-zinc-500';
+
+          return (
+            <button key={p.name} onClick={() => setSelectedPhase(p.name)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition border flex items-center gap-2 ${activeCls}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${indicator}`} />
+              <span>{p.name}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Kanban / Swimlanes Layout */}
+      <div className="relative pl-8 space-y-10">
+        {/* Connecting Timeline Line */}
+        <div className="absolute left-[9px] top-3 bottom-12 w-0.5 bg-gradient-to-b from-[#3b82f6] via-[#f59e0b] via-[#a855f7] via-[#10b981] to-[#f43f5e] opacity-40 rounded-full" />
+
+        {filteredPhases.map((p) => (
+          <div key={p.name} className="flex flex-col lg:flex-row items-stretch gap-6 border-b border-[#161619]/60 pb-8 last:border-b-0 last:pb-0 relative">
+            {/* Phase info column on left */}
+            <div className="w-full lg:w-1/4 space-y-3 flex flex-col justify-start">
+              <div className="flex items-center gap-2.5 relative">
+                {/* Glowing Dot on Timeline */}
+                <div className="absolute left-[-23px] top-1.5 w-2.5 h-2.5 rounded-full z-10" style={{ backgroundColor: p.dotColor, boxShadow: `0 0 10px ${p.dotColor}` }} />
+                <span className={`text-[13px] font-black uppercase tracking-widest ${phaseColors[p.name]}`} style={{ fontFamily: "'Oswald', sans-serif" }}>
+                  PHASE {p.num}: {p.name}
+                </span>
+              </div>
+              <p className="text-zinc-500 text-xs leading-relaxed max-w-sm">{p.desc}</p>
+            </div>
+
+            {/* Modules grid / flex area on right */}
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {p.steps.map((s) => (
+                <div key={s.num} className="p-5 bg-[#111112] border border-[#1c1c1f] rounded-2xl hover:border-zinc-700/50 transition-all flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="text-[14.5px] font-bold text-cyan-400 flex items-center gap-2">
+                      <span className="text-[10px] font-mono text-zinc-500 bg-zinc-900 border border-[#232325] px-1.5 py-0.5 rounded">{s.num}</span>
+                      {s.label}
+                    </h4>
+                    {/* Increased base font size and warm yellow/cream color tint #fefce8 */}
+                    <p className="text-[14.5px] text-[#fefce8] leading-relaxed font-medium">{s.desc}</p>
+                  </div>
+                  
+                  <div className="pt-2.5 border-t border-[#1a1a1c] space-y-1">
+                    <span className="text-[9.5px] font-bold text-zinc-500 tracking-wider uppercase block">Execution Mechanism</span>
+                    {/* Increased base font size to text-sm */}
+                    <p className="text-sm text-zinc-400 leading-relaxed italic">{s.details}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

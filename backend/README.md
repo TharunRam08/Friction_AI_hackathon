@@ -1,4 +1,4 @@
-🚀 How to Run the Cerebra AI Project (Super Easy Setup Guide)
+🚀 How to Run the Friction AI Project (Super Easy Setup Guide)
 
 Hey team! The code is ready. Follow these exact steps to get it running on your screen. Do not skip any steps!
 
@@ -8,9 +8,9 @@ Open VS Code.
 At the very top of your screen, click Terminal, then click New Terminal.
 
 Copy and paste this exact command into the terminal and hit Enter:
-git clone https://github.com/TharunRam08/cerebra_hackathon
+git clone https://github.com/TharunRam08/friction_hackathon
 
-Once it finishes downloading, go to the top left of VS Code, click File > Open Folder, and select the new cerebra_hackathon folder.
+Once it finishes downloading, go to the top left of VS Code, click File > Open Folder, and select the new friction_hackathon folder.
 
 Phase 2: Start the Dashboard (The UI)
 At the top of your screen, click Terminal > New Terminal again.

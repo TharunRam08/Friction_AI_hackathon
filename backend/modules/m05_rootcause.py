@@ -1,4 +1,4 @@
-# backend/modules/m_rootcause.py
+# backend/modules/m05_rootcause.py
 """
 Module 5 — Root Cause Intelligence
 Builds a cause chain to identify WHY a problem exists or WHY a decision matters.

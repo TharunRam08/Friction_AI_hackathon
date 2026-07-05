@@ -14,16 +14,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
 
-# Pipeline Modules
-from modules.m1_intent import get_intent
-from modules.m_friction import get_friction_level
-from modules.m_context import build_context
-from modules.m2_memory import get_past_context
-from modules.m_rootcause import find_root_cause
-from modules.m3_debate import run_debate
-from modules.m_validate import validate_evidence_and_constraints, self_review
-from modules.m_scenarios import run_scenarios_and_regret
-from modules.m6_nemotron import run_nemotron_synthesis
+from modules.m01_intent import get_intent
+from modules.m02_friction import get_friction_level
+from modules.m03_context import build_context
+from modules.m04_memory import get_past_context
+from modules.m05_rootcause import find_root_cause
+from modules.m06_debate import run_debate
+from modules.m08_validate import validate_evidence_and_constraints, self_review
+from modules.m07_scenarios import run_scenarios_and_regret
+from modules.m09_nemotron import run_nemotron_synthesis
 
 # CRM Data helpers
 from data.crm_db import (
@@ -239,13 +238,60 @@ async def reason(request: QueryRequest):
     else:
         formatted_views = views
 
-    breakdown = output.get("confidence_breakdown", {})
+    # ── Calculate Mathematical Confidence Score Dynamically ──────────────────
+    # 1. Agreement (4 agree = 100, 3 agree = 75, 2-2 split = 50, 3 against = 25)
+    agreement = 50
+    if views:
+        stances = [v.get("stance", "neutral").lower() for v in views if v]
+        yes_count = sum(1 for s in stances if s in ("yes", "support", "for"))
+        no_count = sum(1 for s in stances if s in ("no", "against"))
+        total_active = len(stances)
+        if total_active > 0:
+            if yes_count == total_active or no_count == total_active:
+                agreement = 100
+            elif yes_count >= 3 or no_count >= 3:
+                agreement = 75
+            elif yes_count == 2 and no_count == 2:
+                agreement = 50
+            else:
+                agreement = 25
+
+    # 2. Memory match
+    memory_match = min(100, max(0, int(non_neg_score * 100)))
+
+    # 3. Evidence (Module 13 validate phase evidence score)
+    evidence = validation.get("evidence_score", 70) if validation else 70
+
+    # 4. Scenario stability
+    scenario_stability = 60
+    if scenarios_data:
+        scenarios_list = scenarios_data.get("scenarios", [])
+        if scenarios_list:
+            risks = [s.get("risk", "Medium").lower() for s in scenarios_list if s]
+            if all(r == "low" for r in risks):
+                scenario_stability = 80
+            elif all(r == "high" for r in risks):
+                scenario_stability = 40
+            else:
+                scenario_stability = 60
+
+    calculated_confidence = int(round(0.35 * agreement + 0.25 * memory_match + 0.20 * evidence + 0.20 * scenario_stability))
+
+    # Overwrite LLM payload values with programmatic ground-truth math
+    output["confidence"] = calculated_confidence
+    output["confidence_breakdown"] = {
+        "agreement": agreement,
+        "memory_match": memory_match,
+        "evidence": evidence,
+        "scenario_stability": scenario_stability
+    }
+
     confidence_data = {
-        "confidence": output.get("confidence", 70),
-        "agreement_score": breakdown.get("agreement", 60) / 100.0,
-        "memory_match": breakdown.get("memory_match", 0) / 100.0,
-        "evidence_score": breakdown.get("evidence", 65) / 100.0,
-        "scenario_stability": breakdown.get("scenario_stability", 60) / 100.0,
+        "confidence": calculated_confidence,
+        "agreement_score": agreement / 100.0,
+        "memory_match": memory_match / 100.0,
+        "evidence_score": evidence / 100.0,
+        "scenario_stability": scenario_stability / 100.0,
     }
 
     # Build recommendation text (backward compat with old UI fields)

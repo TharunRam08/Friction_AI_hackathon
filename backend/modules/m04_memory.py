@@ -1,4 +1,4 @@
-# backend/modules/m2_memory.py
+# backend/modules/m04_memory.py
 """
 Memory Module — combines:
   1. Vector DB semantic retrieval (past decisions, customer facts, deal records)
