@@ -1,13 +1,23 @@
 # backend/modules/m1_intent.py
 import json
 
-def get_intent(question: str, model) -> dict:
+def get_intent(question: str, client) -> dict:
     prompt = f"""
     You are a business strategist. Read the user's question: "{question}".
     Extract the underlying business goal, constraints, and time horizon.
     Return ONLY a valid JSON object with these exact keys: "goal", "constraints", "time_horizon".
     Example: {{"goal": "Increase Market Share", "constraints": ["Maintain Margin"], "time_horizon": "3 Months"}}
     """
-    response = model.generate_content(prompt)
-    clean_json = response.text.replace('```json', '').replace('```', '').strip()
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="llama-3.3-70b-versatile",
+        response_format={"type": "json_object"},
+        temperature=0.1,
+    )
+    clean_json = chat_completion.choices[0].message.content.strip()
     return json.loads(clean_json)

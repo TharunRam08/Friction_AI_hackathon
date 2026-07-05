@@ -1,0 +1,1227 @@
+[
+  {
+    "type": "customer",
+    "id": 1,
+    "text": "Customer 'Apex Retail Corp' is a Enterprise client in Retail. Lifetime value $320,000, 8 deals completed, churn risk: LOW, status: Active, since 2021."
+  },
+  {
+    "type": "customer",
+    "id": 2,
+    "text": "Customer 'BlueSky Logistics' is a Enterprise client in Logistics. Lifetime value $275,000, 6 deals completed, churn risk: MEDIUM, status: Active, since 2020."
+  },
+  {
+    "type": "customer",
+    "id": 3,
+    "text": "Customer 'CoreTech Solutions' is a SMB client in Technology. Lifetime value $95,000, 4 deals completed, churn risk: LOW, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 4,
+    "text": "Customer 'DeltaWave Finance' is a Enterprise client in Finance. Lifetime value $410,000, 10 deals completed, churn risk: LOW, status: Active, since 2019."
+  },
+  {
+    "type": "customer",
+    "id": 5,
+    "text": "Customer 'EcoGrow Industries' is a SMB client in Agriculture. Lifetime value $48,000, 2 deals completed, churn risk: HIGH, status: At-Risk, since 2023."
+  },
+  {
+    "type": "customer",
+    "id": 6,
+    "text": "Customer 'FusionMed Hospital' is a Enterprise client in Healthcare. Lifetime value $380,000, 9 deals completed, churn risk: LOW, status: Active, since 2020."
+  },
+  {
+    "type": "customer",
+    "id": 7,
+    "text": "Customer 'GreenPath Energy' is a SMB client in Energy. Lifetime value $72,000, 3 deals completed, churn risk: MEDIUM, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 8,
+    "text": "Customer 'HorizonBank' is a Enterprise client in Finance. Lifetime value $520,000, 12 deals completed, churn risk: LOW, status: Active, since 2018."
+  },
+  {
+    "type": "customer",
+    "id": 9,
+    "text": "Customer 'InnovateTech Startup' is a Startup client in Technology. Lifetime value $18,000, 1 deals completed, churn risk: HIGH, status: At-Risk, since 2024."
+  },
+  {
+    "type": "customer",
+    "id": 10,
+    "text": "Customer 'JetStream Airways' is a Enterprise client in Aviation. Lifetime value $290,000, 7 deals completed, churn risk: MEDIUM, status: Active, since 2021."
+  },
+  {
+    "type": "customer",
+    "id": 11,
+    "text": "Customer 'KloudBase SaaS' is a Startup client in Technology. Lifetime value $22,000, 1 deals completed, churn risk: HIGH, status: At-Risk, since 2024."
+  },
+  {
+    "type": "customer",
+    "id": 12,
+    "text": "Customer 'LunarFarm Organics' is a SMB client in Agriculture. Lifetime value $35,000, 2 deals completed, churn risk: HIGH, status: At-Risk, since 2023."
+  },
+  {
+    "type": "customer",
+    "id": 13,
+    "text": "Customer 'MetroCity Council' is a Enterprise client in Government. Lifetime value $195,000, 5 deals completed, churn risk: LOW, status: Active, since 2020."
+  },
+  {
+    "type": "customer",
+    "id": 14,
+    "text": "Customer 'NovaMed Pharma' is a Enterprise client in Healthcare. Lifetime value $445,000, 11 deals completed, churn risk: LOW, status: Active, since 2019."
+  },
+  {
+    "type": "customer",
+    "id": 15,
+    "text": "Customer 'OmniChain Supply' is a SMB client in Logistics. Lifetime value $68,000, 3 deals completed, churn risk: MEDIUM, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 16,
+    "text": "Customer 'PeakForm Fitness' is a Startup client in Wellness. Lifetime value $14,000, 1 deals completed, churn risk: HIGH, status: At-Risk, since 2024."
+  },
+  {
+    "type": "customer",
+    "id": 17,
+    "text": "Customer 'QuantumBuild' is a SMB client in Construction. Lifetime value $82,000, 4 deals completed, churn risk: LOW, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 18,
+    "text": "Customer 'RapidShip Couriers' is a SMB client in Logistics. Lifetime value $59,000, 3 deals completed, churn risk: MEDIUM, status: Active, since 2023."
+  },
+  {
+    "type": "customer",
+    "id": 19,
+    "text": "Customer 'SolarNest Energy' is a SMB client in Energy. Lifetime value $91,000, 4 deals completed, churn risk: LOW, status: Active, since 2021."
+  },
+  {
+    "type": "customer",
+    "id": 20,
+    "text": "Customer 'TerraFlex Properties' is a Enterprise client in Real Estate. Lifetime value $310,000, 8 deals completed, churn risk: MEDIUM, status: Active, since 2020."
+  },
+  {
+    "type": "customer",
+    "id": 21,
+    "text": "Customer 'UrbanDine Group' is a SMB client in F&B. Lifetime value $44,000, 2 deals completed, churn risk: HIGH, status: At-Risk, since 2023."
+  },
+  {
+    "type": "customer",
+    "id": 22,
+    "text": "Customer 'VeroVault Security' is a Enterprise client in Cybersecurity. Lifetime value $260,000, 6 deals completed, churn risk: LOW, status: Active, since 2021."
+  },
+  {
+    "type": "customer",
+    "id": 23,
+    "text": "Customer 'WaveRider Marine' is a SMB client in Maritime. Lifetime value $53,000, 3 deals completed, churn risk: MEDIUM, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 24,
+    "text": "Customer 'XenithAI Labs' is a Startup client in Technology. Lifetime value $28,000, 1 deals completed, churn risk: HIGH, status: At-Risk, since 2024."
+  },
+  {
+    "type": "customer",
+    "id": 25,
+    "text": "Customer 'YellowBrick Retail' is a SMB client in Retail. Lifetime value $66,000, 3 deals completed, churn risk: LOW, status: Active, since 2022."
+  },
+  {
+    "type": "customer",
+    "id": 26,
+    "text": "Customer 'ZenithCare Clinics' is a SMB client in Healthcare. Lifetime value $77,000, 4 deals completed, churn risk: MEDIUM, status: Active, since 2023."
+  },
+  {
+    "type": "customer",
+    "id": 27,
+    "text": "Customer 'AtlasGlobal Trade' is a Enterprise client in Trade. Lifetime value $340,000, 9 deals completed, churn risk: LOW, status: Active, since 2019."
+  },
+  {
+    "type": "customer",
+    "id": 28,
+    "text": "Customer 'BrightMind EdTech' is a Startup client in Education. Lifetime value $19,000, 1 deals completed, churn risk: HIGH, status: At-Risk, since 2024."
+  },
+  {
+    "type": "customer",
+    "id": 29,
+    "text": "Customer 'ClearPath Insurance' is a Enterprise client in Insurance. Lifetime value $285,000, 7 deals completed, churn risk: LOW, status: Active, since 2020."
+  },
+  {
+    "type": "customer",
+    "id": 30,
+    "text": "Customer 'DawnRise Manufacturing' is a Enterprise client in Manufacturing. Lifetime value $460,000, 10 deals completed, churn risk: MEDIUM, status: Active, since 2018."
+  },
+  {
+    "type": "deal",
+    "id": 1,
+    "text": "Deal 'Annual Expansion License' with Apex Retail Corp is in stage 'Closed-Won'. Value $85,000, win probability 100%, expected close 2024-01-15, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 2,
+    "text": "Deal 'Supply Chain Platform Upgrade' with BlueSky Logistics is in stage 'Negotiation'. Value $62,000, win probability 75%, expected close 2024-08-30, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 3,
+    "text": "Deal 'DevOps Consulting Package' with CoreTech Solutions is in stage 'Proposal'. Value $28,000, win probability 50%, expected close 2024-09-15, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 4,
+    "text": "Deal 'Risk Analytics Suite' with DeltaWave Finance is in stage 'Closed-Won'. Value $110,000, win probability 100%, expected close 2024-02-28, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 5,
+    "text": "Deal 'IoT Sensor Network' with EcoGrow Industries is in stage 'Qualified'. Value $18,000, win probability 30%, expected close 2024-10-01, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 6,
+    "text": "Deal 'Patient Data Platform' with FusionMed Hospital is in stage 'Closed-Won'. Value $120,000, win probability 100%, expected close 2024-03-10, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 7,
+    "text": "Deal 'Carbon Credit Tracking' with GreenPath Energy is in stage 'Proposal'. Value $22,000, win probability 45%, expected close 2024-09-20, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 8,
+    "text": "Deal 'Fraud Detection Engine Tier2' with HorizonBank is in stage 'Negotiation'. Value $95,000, win probability 80%, expected close 2024-08-15, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 9,
+    "text": "Deal 'Startup CRM Bundle' with InnovateTech Startup is in stage 'Prospect'. Value $8,000, win probability 20%, expected close 2024-11-01, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 10,
+    "text": "Deal 'Fleet Management Dashboard' with JetStream Airways is in stage 'Proposal'. Value $74,000, win probability 55%, expected close 2024-09-30, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 11,
+    "text": "Deal 'API Integration Starter' with KloudBase SaaS is in stage 'Prospect'. Value $6,000, win probability 15%, expected close 2024-11-15, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 12,
+    "text": "Deal 'Crop Analytics Lite' with LunarFarm Organics is in stage 'Qualified'. Value $12,000, win probability 25%, expected close 2024-10-10, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 13,
+    "text": "Deal 'Smart City Dashboard' with MetroCity Council is in stage 'Closed-Won'. Value $55,000, win probability 100%, expected close 2024-04-05, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 14,
+    "text": "Deal 'Clinical Trial Management' with NovaMed Pharma is in stage 'Closed-Won'. Value $135,000, win probability 100%, expected close 2024-01-30, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 15,
+    "text": "Deal 'Inventory Optimizer' with OmniChain Supply is in stage 'Proposal'. Value $19,000, win probability 40%, expected close 2024-09-25, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 16,
+    "text": "Deal 'Member Analytics App' with PeakForm Fitness is in stage 'Prospect'. Value $5,000, win probability 10%, expected close 2024-12-01, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 17,
+    "text": "Deal 'Project Cost Tracker' with QuantumBuild is in stage 'Negotiation'. Value $31,000, win probability 70%, expected close 2024-08-20, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 18,
+    "text": "Deal 'Route Optimization Module' with RapidShip Couriers is in stage 'Qualified'. Value $17,000, win probability 35%, expected close 2024-10-05, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 19,
+    "text": "Deal 'Grid Analytics Platform' with SolarNest Energy is in stage 'Closed-Won'. Value $42,000, win probability 100%, expected close 2024-05-12, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 20,
+    "text": "Deal 'Portfolio Risk Engine' with TerraFlex Properties is in stage 'Negotiation'. Value $88,000, win probability 78%, expected close 2024-08-28, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 21,
+    "text": "Deal 'POS Integration Suite' with UrbanDine Group is in stage 'Qualified'. Value $11,000, win probability 20%, expected close 2024-10-15, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 22,
+    "text": "Deal 'Zero-Trust Security Audit' with VeroVault Security is in stage 'Closed-Won'. Value $72,000, win probability 100%, expected close 2024-03-22, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 23,
+    "text": "Deal 'Fleet GPS Tracker' with WaveRider Marine is in stage 'Proposal'. Value $16,000, win probability 45%, expected close 2024-09-18, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 24,
+    "text": "Deal 'MLOps Pipeline' with XenithAI Labs is in stage 'Prospect'. Value $9,000, win probability 15%, expected close 2024-11-20, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 25,
+    "text": "Deal 'Retail Analytics Bundle' with YellowBrick Retail is in stage 'Proposal'. Value $21,000, win probability 50%, expected close 2024-09-10, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 26,
+    "text": "Deal 'Clinical Workflow Tool' with ZenithCare Clinics is in stage 'Negotiation'. Value $28,000, win probability 65%, expected close 2024-08-25, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 27,
+    "text": "Deal 'Trade Compliance Suite' with AtlasGlobal Trade is in stage 'Closed-Won'. Value $102,000, win probability 100%, expected close 2024-02-14, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 28,
+    "text": "Deal 'Learning Management System' with BrightMind EdTech is in stage 'Prospect'. Value $7,000, win probability 10%, expected close 2024-12-10, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 29,
+    "text": "Deal 'Claims Automation Engine' with ClearPath Insurance is in stage 'Closed-Won'. Value $78,000, win probability 100%, expected close 2024-04-18, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 30,
+    "text": "Deal 'Smart Factory Integration' with DawnRise Manufacturing is in stage 'Negotiation'. Value $118,000, win probability 82%, expected close 2024-08-10, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 31,
+    "text": "Deal '2025 Renewal Add-On' with Apex Retail Corp is in stage 'Proposal'. Value $32,000, win probability 60%, expected close 2024-10-20, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 32,
+    "text": "Deal 'Compliance Module Upgrade' with DeltaWave Finance is in stage 'Negotiation'. Value $45,000, win probability 72%, expected close 2024-09-05, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 33,
+    "text": "Deal 'AML Analytics Add-On' with HorizonBank is in stage 'Proposal'. Value $38,000, win probability 55%, expected close 2024-10-12, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 34,
+    "text": "Deal 'Lab Data Integration' with NovaMed Pharma is in stage 'Negotiation'. Value $55,000, win probability 68%, expected close 2024-08-22, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 35,
+    "text": "Deal '2025 Enterprise Renewal' with AtlasGlobal Trade is in stage 'Proposal'. Value $98,000, win probability 65%, expected close 2024-10-08, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 36,
+    "text": "Deal 'Telehealth Module' with FusionMed Hospital is in stage 'Qualified'. Value $29,000, win probability 40%, expected close 2024-10-25, owned by Kiran Mehta."
+  },
+  {
+    "type": "deal",
+    "id": 37,
+    "text": "Deal 'Warehouse Automation Phase 2' with BlueSky Logistics is in stage 'Prospect'. Value $43,000, win probability 25%, expected close 2024-11-30, owned by Priya Nair."
+  },
+  {
+    "type": "deal",
+    "id": 38,
+    "text": "Deal 'Predictive Maintenance' with DawnRise Manufacturing is in stage 'Proposal'. Value $67,000, win probability 58%, expected close 2024-10-18, owned by Rahul Singh."
+  },
+  {
+    "type": "deal",
+    "id": 39,
+    "text": "Deal 'Market Intelligence Tool' with TerraFlex Properties is in stage 'Qualified'. Value $34,000, win probability 35%, expected close 2024-11-10, owned by Ananya Kumar."
+  },
+  {
+    "type": "deal",
+    "id": 40,
+    "text": "Deal 'Fuel Cost Optimizer' with JetStream Airways is in stage 'Prospect'. Value $51,000, win probability 20%, expected close 2024-12-15, owned by Kiran Mehta."
+  },
+  {
+    "type": "financial",
+    "id": 1,
+    "text": "In 2023-01: Revenue $820,000, profit $215,000 (26.2% margin), COGS $410,000, operating costs $195,000, budget $800,000, headcount 48."
+  },
+  {
+    "type": "financial",
+    "id": 2,
+    "text": "In 2023-02: Revenue $795,000, profit $205,000 (25.8% margin), COGS $398,000, operating costs $192,000, budget $800,000, headcount 48."
+  },
+  {
+    "type": "financial",
+    "id": 3,
+    "text": "In 2023-03: Revenue $870,000, profit $237,000 (27.2% margin), COGS $435,000, operating costs $198,000, budget $850,000, headcount 49."
+  },
+  {
+    "type": "financial",
+    "id": 4,
+    "text": "In 2023-04: Revenue $910,000, profit $250,000 (27.5% margin), COGS $455,000, operating costs $205,000, budget $900,000, headcount 51."
+  },
+  {
+    "type": "financial",
+    "id": 5,
+    "text": "In 2023-05: Revenue $945,000, profit $262,500 (27.8% margin), COGS $472,500, operating costs $210,000, budget $920,000, headcount 51."
+  },
+  {
+    "type": "financial",
+    "id": 6,
+    "text": "In 2023-06: Revenue $980,000, profit $275,000 (28.1% margin), COGS $490,000, operating costs $215,000, budget $960,000, headcount 52."
+  },
+  {
+    "type": "financial",
+    "id": 7,
+    "text": "In 2023-07: Revenue $1,020,000, profit $285,000 (27.9% margin), COGS $510,000, operating costs $225,000, budget $1,000,000, headcount 53."
+  },
+  {
+    "type": "financial",
+    "id": 8,
+    "text": "In 2023-08: Revenue $1,050,000, profit $295,000 (28.1% margin), COGS $525,000, operating costs $230,000, budget $1,020,000, headcount 54."
+  },
+  {
+    "type": "financial",
+    "id": 9,
+    "text": "In 2023-09: Revenue $1,080,000, profit $305,000 (28.2% margin), COGS $540,000, operating costs $235,000, budget $1,050,000, headcount 55."
+  },
+  {
+    "type": "financial",
+    "id": 10,
+    "text": "In 2023-10: Revenue $1,110,000, profit $315,000 (28.4% margin), COGS $555,000, operating costs $240,000, budget $1,080,000, headcount 56."
+  },
+  {
+    "type": "financial",
+    "id": 11,
+    "text": "In 2023-11: Revenue $1,150,000, profit $327,000 (28.4% margin), COGS $575,000, operating costs $248,000, budget $1,120,000, headcount 57."
+  },
+  {
+    "type": "financial",
+    "id": 12,
+    "text": "In 2023-12: Revenue $1,240,000, profit $355,000 (28.6% margin), COGS $620,000, operating costs $265,000, budget $1,200,000, headcount 58."
+  },
+  {
+    "type": "financial",
+    "id": 13,
+    "text": "In 2024-01: Revenue $1,180,000, profit $332,000 (28.1% margin), COGS $590,000, operating costs $258,000, budget $1,150,000, headcount 58."
+  },
+  {
+    "type": "financial",
+    "id": 14,
+    "text": "In 2024-02: Revenue $1,220,000, profit $348,000 (28.5% margin), COGS $610,000, operating costs $262,000, budget $1,180,000, headcount 59."
+  },
+  {
+    "type": "financial",
+    "id": 15,
+    "text": "In 2024-03: Revenue $1,295,000, profit $377,500 (29.2% margin), COGS $647,500, operating costs $270,000, budget $1,260,000, headcount 60."
+  },
+  {
+    "type": "financial",
+    "id": 16,
+    "text": "In 2024-04: Revenue $1,310,000, profit $380,000 (29.0% margin), COGS $655,000, operating costs $275,000, budget $1,280,000, headcount 61."
+  },
+  {
+    "type": "financial",
+    "id": 17,
+    "text": "In 2024-05: Revenue $1,340,000, profit $388,000 (29.0% margin), COGS $670,000, operating costs $282,000, budget $1,300,000, headcount 62."
+  },
+  {
+    "type": "financial",
+    "id": 18,
+    "text": "In 2024-06: Revenue $1,375,000, profit $397,500 (28.9% margin), COGS $687,500, operating costs $290,000, budget $1,350,000, headcount 63."
+  },
+  {
+    "type": "team",
+    "id": 1,
+    "text": "Priya Nair is Senior Sales Executive in Sales. Salary $72,000/yr, performance 4.5/5, tenure 3.5yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 2,
+    "text": "Rahul Singh is Sales Executive in Sales. Salary $62,000/yr, performance 4.2/5, tenure 2.8yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 3,
+    "text": "Ananya Kumar is Sales Executive in Sales. Salary $62,000/yr, performance 4.0/5, tenure 2.1yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 4,
+    "text": "Kiran Mehta is Account Manager in Sales. Salary $68,000/yr, performance 4.3/5, tenure 4.0yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 5,
+    "text": "Deepa Krishnan is Sales Trainee in Sales. Salary $38,000/yr, performance 3.2/5, tenure 0.5yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 6,
+    "text": "Arjun Nambiar is CFO in Finance. Salary $145,000/yr, performance 4.8/5, tenure 7.0yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 7,
+    "text": "Meera Pillai is Financial Analyst in Finance. Salary $75,000/yr, performance 4.4/5, tenure 3.2yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 8,
+    "text": "Suresh Babu is Accounts Manager in Finance. Salary $65,000/yr, performance 4.1/5, tenure 5.0yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 9,
+    "text": "Divya Menon is Operations Manager in Operations. Salary $88,000/yr, performance 4.6/5, tenure 6.0yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 10,
+    "text": "Ravi Chandran is Logistics Coordinator in Operations. Salary $55,000/yr, performance 3.8/5, tenure 2.5yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 11,
+    "text": "Lakshmi Iyer is Process Analyst in Operations. Salary $58,000/yr, performance 4.0/5, tenure 1.8yrs, status On-Leave."
+  },
+  {
+    "type": "team",
+    "id": 12,
+    "text": "Arun Pillai is HR Manager in HR. Salary $78,000/yr, performance 4.3/5, tenure 4.5yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 13,
+    "text": "Sowmya Nair is HR Executive in HR. Salary $52,000/yr, performance 3.9/5, tenure 2.0yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 14,
+    "text": "Vinod Kumar is CTO in Technology. Salary $150,000/yr, performance 4.9/5, tenure 5.5yrs, status Active."
+  },
+  {
+    "type": "team",
+    "id": 15,
+    "text": "Nisha Raj is Senior Developer in Technology. Salary $95,000/yr, performance 4.7/5, tenure 3.0yrs, status Active."
+  },
+  {
+    "type": "decision",
+    "id": 1,
+    "text": "Decision on 2023-01-10 (Expansion): 'Expanded to Chennai branch'. Outcome: Failed. Financial impact: -$180,000. Confidence then: 62%. Lesson: Logistics and local market not analyzed. Closed after 5 months."
+  },
+  {
+    "type": "decision",
+    "id": 2,
+    "text": "Decision on 2023-02-15 (Hiring): 'Hired 10 sales reps in Q1 2023'. Outcome: Success. Financial impact: +$320,000. Confidence then: 78%. Lesson: Demand aligned with capacity. Revenue grew 18% within 2 quarters."
+  },
+  {
+    "type": "decision",
+    "id": 3,
+    "text": "Decision on 2023-03-01 (Marketing): 'Cut prices by 10% to fight new competitor'. Outcome: Mixed. Financial impact: -$25,000. Confidence then: 55%. Lesson: Volume grew 25% but gross margins dropped 12%. Profit flat."
+  },
+  {
+    "type": "decision",
+    "id": 4,
+    "text": "Decision on 2023-04-20 (Operations): 'Invested in warehouse automation software'. Outcome: Success. Financial impact: +$210,000. Confidence then: 82%. Lesson: Operational cost down 15%; picking errors near zero."
+  },
+  {
+    "type": "decision",
+    "id": 5,
+    "text": "Decision on 2023-05-05 (Operations): 'Outsourced logistics to 3rd-party provider'. Outcome: Failed. Financial impact: -$140,000. Confidence then: 48%. Lesson: SLA breaches led to 40% increase in customer complaints."
+  },
+  {
+    "type": "decision",
+    "id": 6,
+    "text": "Decision on 2023-06-12 (Product): 'Launched premium product line'. Outcome: Success. Financial impact: +$275,000. Confidence then: 71%. Lesson: Brand differentiation. High margins offset lower volume."
+  },
+  {
+    "type": "decision",
+    "id": 7,
+    "text": "Decision on 2023-07-18 (Marketing): 'Increased social media spend by 50%'. Outcome: Mixed. Financial impact: +$15,000. Confidence then: 60%. Lesson: Awareness up but conversion rate was low. High CAC."
+  },
+  {
+    "type": "decision",
+    "id": 8,
+    "text": "Decision on 2023-08-22 (Expansion): 'Expanded to Bangalore (new city, 2023)'. Outcome: Failed. Financial impact: -$220,000. Confidence then: 57%. Lesson: Underestimated competition. Did not localize. Exited in 6 months."
+  },
+  {
+    "type": "decision",
+    "id": 9,
+    "text": "Decision on 2023-09-30 (Marketing): 'Implemented customer referral program'. Outcome: Success. Financial impact: +$190,000. Confidence then: 75%. Lesson: LTV increased 22%. High-quality inbound leads."
+  },
+  {
+    "type": "decision",
+    "id": 10,
+    "text": "Decision on 2023-10-14 (Hiring): 'Hired full-time CTO'. Outcome: Success. Financial impact: +$450,000. Confidence then: 88%. Lesson: Tech debt cleared. Product velocity up 30%."
+  },
+  {
+    "type": "decision",
+    "id": 11,
+    "text": "Decision on 2023-11-05 (Operations): 'Moved to remote-first work policy'. Outcome: Mixed. Financial impact: -$8,000. Confidence then: 64%. Lesson: Employee satisfaction up; collaboration slightly reduced."
+  },
+  {
+    "type": "decision",
+    "id": 12,
+    "text": "Decision on 2023-12-20 (Finance): 'Secured bulk inventory purchase at 20% discount'. Outcome: Failed. Financial impact: -$95,000. Confidence then: 52%. Lesson: No warehouse space. External storage costs ate the discount."
+  },
+  {
+    "type": "decision",
+    "id": 13,
+    "text": "Decision on 2024-01-08 (Hiring): 'Promoted Priya Nair to Senior Sales Exec'. Outcome: Success. Financial impact: +$95,000. Confidence then: 85%. Lesson: Win rate on enterprise deals improved 15%."
+  },
+  {
+    "type": "decision",
+    "id": 14,
+    "text": "Decision on 2024-02-10 (Product): 'Launched API integration product tier'. Outcome: Success. Financial impact: +$310,000. Confidence then: 80%. Lesson: 3 enterprise clients upsold immediately. ARR grew 22%."
+  },
+  {
+    "type": "decision",
+    "id": 15,
+    "text": "Decision on 2024-03-01 (Finance): 'Renegotiated vendor contract for 3 years'. Outcome: Success. Financial impact: +$130,000. Confidence then: 79%. Lesson: Fixed cost base. Saved 8% on COGS per year."
+  },
+  {
+    "type": "decision",
+    "id": 16,
+    "text": "Decision on 2024-03-15 (Expansion): 'Opened Hyderabad co-working office'. Outcome: Mixed. Financial impact: +$20,000. Confidence then: 65%. Lesson: Cost lower than expected, but team collaboration uneven."
+  },
+  {
+    "type": "decision",
+    "id": 17,
+    "text": "Decision on 2024-04-01 (Hiring): 'Hired 2 operations coordinators'. Outcome: Success. Financial impact: +$60,000. Confidence then: 74%. Lesson: Reduced delivery delay complaints by 35%."
+  },
+  {
+    "type": "decision",
+    "id": 18,
+    "text": "Decision on 2024-04-20 (Marketing): 'Ran TV ad campaign for product launch'. Outcome: Failed. Financial impact: -$80,000. Confidence then: 45%. Lesson: Wrong channel for target audience. Low ROI."
+  },
+  {
+    "type": "decision",
+    "id": 19,
+    "text": "Decision on 2024-05-10 (Product): 'Integrated AI-based churn prediction module'. Outcome: Success. Financial impact: +$180,000. Confidence then: 83%. Lesson: Retained 5 at-risk enterprise clients. Saved $180k ARR."
+  },
+  {
+    "type": "decision",
+    "id": 20,
+    "text": "Decision on 2024-05-25 (Finance): 'Invested in 2-year office lease extension'. Outcome: Success. Financial impact: +$50,000. Confidence then: 76%. Lesson: Locked in current rate. Market rates rose 18% after signing."
+  },
+  {
+    "type": "decision",
+    "id": 21,
+    "text": "Decision on 2024-06-05 (Operations): 'Adopted real-time inventory tracking system'. Outcome: Success. Financial impact: +$155,000. Confidence then: 81%. Lesson: Stock-outs dropped 60%. On-time delivery improved to 94%."
+  },
+  {
+    "type": "decision",
+    "id": 22,
+    "text": "Decision on 2024-06-20 (Hiring): 'Attempt to hire 5 senior developers'. Outcome: Failed. Financial impact: -$40,000. Confidence then: 55%. Lesson: Only 2 hired; 3 offers rejected due to below-market salary."
+  },
+  {
+    "type": "decision",
+    "id": 23,
+    "text": "Decision on 2024-07-01 (Marketing): 'Launched B2B LinkedIn outreach campaign'. Outcome: Success. Financial impact: +$125,000. Confidence then: 72%. Lesson: Pipeline grew by 18 qualified deals in 45 days."
+  },
+  {
+    "type": "decision",
+    "id": 24,
+    "text": "Decision on 2024-07-15 (Product): 'Delayed mobile app launch by 2 months'. Outcome: Mixed. Financial impact: -$30,000. Confidence then: 61%. Lesson: Quality improved but competitor launched first. Market share dip."
+  },
+  {
+    "type": "decision",
+    "id": 25,
+    "text": "Decision on 2024-08-01 (Expansion): 'Started Southeast Asia expansion feasibility'. Outcome: Mixed. Financial impact: +$10,000. Confidence then: 58%. Lesson: Research phase only. No commit yet. Market looks promising."
+  },
+  {
+    "type": "product",
+    "id": 1,
+    "text": "Product 'Analytics Pro' (SaaS, SKU FRI-PRO-001): priced at $299.0/unit, cost $45.0, margin 84.9%. Sold 142 units YTD generating $42,458 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 2,
+    "text": "Product 'Analytics Enterprise' (SaaS, SKU FRI-ENT-001): priced at $999.0/unit, cost $150.0, margin 85.0%. Sold 38 units YTD generating $37,962 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 3,
+    "text": "Product 'Analytics Starter' (SaaS, SKU FRI-STR-001): priced at $99.0/unit, cost $18.0, margin 81.8%. Sold 285 units YTD generating $28,215 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 4,
+    "text": "Product 'Decision API Access' (SaaS, SKU FRI-API-001): priced at $199.0/unit, cost $35.0, margin 82.4%. Sold 67 units YTD generating $13,333 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 5,
+    "text": "Product 'Data Connector Premium' (SaaS, SKU FRI-CON-001): priced at $149.0/unit, cost $28.0, margin 81.2%. Sold 89 units YTD generating $13,261 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 6,
+    "text": "Product 'Custom Integration Service' (Service, SKU FRI-SVC-001): priced at $5000.0/unit, cost $2000.0, margin 60.0%. Sold 18 units YTD generating $90,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 7,
+    "text": "Product 'Onboarding & Training' (Service, SKU FRI-TRN-001): priced at $2500.0/unit, cost $800.0, margin 68.0%. Sold 42 units YTD generating $105,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 8,
+    "text": "Product 'Annual Business Review' (Service, SKU FRI-ABR-001): priced at $1500.0/unit, cost $400.0, margin 73.3%. Sold 28 units YTD generating $42,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 9,
+    "text": "Product 'Data Migration Service' (Service, SKU FRI-MIG-001): priced at $8000.0/unit, cost $3500.0, margin 56.3%. Sold 8 units YTD generating $64,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 10,
+    "text": "Product 'Strategic Advisory' (Service, SKU FRI-ADV-001): priced at $3500.0/unit, cost $1200.0, margin 65.7%. Sold 12 units YTD generating $42,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 11,
+    "text": "Product 'Edge Gateway Device' (Hardware, SKU FRI-HW-001): priced at $1500.0/unit, cost $850.0, margin 43.3%. Sold 34 units YTD generating $51,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 12,
+    "text": "Product 'Analytics Dashboard Hub' (Hardware, SKU FRI-HW-002): priced at $3200.0/unit, cost $1800.0, margin 43.8%. Sold 18 units YTD generating $57,600 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 13,
+    "text": "Product 'Data Collection Pod' (Hardware, SKU FRI-HW-003): priced at $800.0/unit, cost $420.0, margin 47.5%. Sold 56 units YTD generating $44,800 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 14,
+    "text": "Product 'Support Plan Silver' (Support, SKU FRI-SUP-001): priced at $250.0/unit, cost $80.0, margin 68.0%. Sold 89 units YTD generating $22,250 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 15,
+    "text": "Product 'Support Plan Gold' (Support, SKU FRI-SUP-002): priced at $500.0/unit, cost $150.0, margin 70.0%. Sold 62 units YTD generating $31,000 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 16,
+    "text": "Product 'Support Plan Platinum' (Support, SKU FRI-SUP-003): priced at $1200.0/unit, cost $380.0, margin 68.3%. Sold 28 units YTD generating $33,600 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 17,
+    "text": "Product 'Advanced Analytics Module' (Add-on, SKU FRI-ADD-001): priced at $149.0/unit, cost $30.0, margin 79.9%. Sold 78 units YTD generating $11,622 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 18,
+    "text": "Product 'Compliance Reporting Add-on' (Add-on, SKU FRI-ADD-002): priced at $99.0/unit, cost $20.0, margin 79.8%. Sold 45 units YTD generating $4,455 revenue. Status: Active."
+  },
+  {
+    "type": "product",
+    "id": 19,
+    "text": "Product 'White-Label License' (License, SKU FRI-LIC-001): priced at $2000.0/unit, cost $500.0, margin 75.0%. Sold 4 units YTD generating $8,000 revenue. Status: Limited."
+  },
+  {
+    "type": "product",
+    "id": 20,
+    "text": "Product 'Legacy System Bridge' (Service, SKU FRI-LGB-001): priced at $6000.0/unit, cost $2800.0, margin 53.3%. Sold 3 units YTD generating $18,000 revenue. Status: Limited."
+  },
+  {
+    "type": "inventory",
+    "id": 1,
+    "text": "Inventory item 'Edge Gateway Device' (SKU FRI-HW-001): 45 units on hand in Warehouse A. Reorder point 20, 18 days of supply. Last restocked 2024-05-20. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 2,
+    "text": "Inventory item 'Analytics Dashboard Hub' (SKU FRI-HW-002): 22 units on hand in Warehouse A. Reorder point 10, 25 days of supply. Last restocked 2024-04-15. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 3,
+    "text": "Inventory item 'Data Collection Pod' (SKU FRI-HW-003): 78 units on hand in Warehouse B. Reorder point 30, 21 days of supply. Last restocked 2024-06-01. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 4,
+    "text": "Inventory item 'Power Adapter Kit' (SKU ACC-PWR-001): 142 units on hand in Warehouse A. Reorder point 50, 28 days of supply. Last restocked 2024-05-10. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 5,
+    "text": "Inventory item 'Ethernet Module' (SKU ACC-ETH-001): 89 units on hand in Warehouse A. Reorder point 40, 22 days of supply. Last restocked 2024-05-25. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 6,
+    "text": "Inventory item 'Mounting Bracket Set' (SKU ACC-MNT-001): 205 units on hand in Warehouse B. Reorder point 80, 25 days of supply. Last restocked 2024-04-20. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 7,
+    "text": "Inventory item 'Replacement Battery Pack' (SKU ACC-BAT-001): 38 units on hand in Warehouse B. Reorder point 30, 12 days of supply. Last restocked 2024-06-10. Status: Low."
+  },
+  {
+    "type": "inventory",
+    "id": 8,
+    "text": "Inventory item 'USB-C Hub 4-Port' (SKU ACC-USB-001): 15 units on hand in Warehouse A. Reorder point 25, 6 days of supply. Last restocked 2024-03-15. Status: Critical."
+  },
+  {
+    "type": "inventory",
+    "id": 9,
+    "text": "Inventory item 'Network Switch 8-Port' (SKU ACC-NET-001): 28 units on hand in Warehouse A. Reorder point 20, 14 days of supply. Last restocked 2024-05-05. Status: Low."
+  },
+  {
+    "type": "inventory",
+    "id": 10,
+    "text": "Inventory item 'Rugged Carrying Case' (SKU ACC-CAS-001): 62 units on hand in Warehouse B. Reorder point 25, 24 days of supply. Last restocked 2024-04-30. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 11,
+    "text": "Inventory item 'Demo Unit - Pro Bundle' (SKU DEMO-001): 8 units on hand in Demo Room. Reorder point 5, 60 days of supply. Last restocked 2024-06-15. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 12,
+    "text": "Inventory item 'Sensor Array Module' (SKU ACC-SEN-001): 12 units on hand in Warehouse B. Reorder point 15, 8 days of supply. Last restocked 2024-02-28. Status: Critical."
+  },
+  {
+    "type": "inventory",
+    "id": 13,
+    "text": "Inventory item 'Cloud Activation Cards' (SKU SW-CAR-001): 350 units on hand in Warehouse A. Reorder point 100, 70 days of supply. Last restocked 2024-06-20. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 14,
+    "text": "Inventory item 'Training Kit Materials' (SKU SVC-TRN-001): 45 units on hand in Office. Reorder point 20, 45 days of supply. Last restocked 2024-05-01. Status: OK."
+  },
+  {
+    "type": "inventory",
+    "id": 15,
+    "text": "Inventory item 'Hardware Warranty Cards' (SKU DOC-WRN-001): 180 units on hand in Office. Reorder point 50, 60 days of supply. Last restocked 2024-04-01. Status: OK."
+  },
+  {
+    "type": "campaign",
+    "id": 1,
+    "text": "Marketing campaign 'Q1 LinkedIn B2B Campaign' via LinkedIn (2023-01-05 to 2023-03-31): Budget $15,000, spent $14,200. Generated 342 leads, 89 MQLs, 11 conversions. Revenue attributed: $87,500, ROI: 516.2%."
+  },
+  {
+    "type": "campaign",
+    "id": 2,
+    "text": "Marketing campaign 'Google Search - Analytics Intent' via Google Ads (2023-01-15 to 2023-06-30): Budget $25,000, spent $23,800. Generated 512 leads, 128 MQLs, 19 conversions. Revenue attributed: $156,000, ROI: 555.5%."
+  },
+  {
+    "type": "campaign",
+    "id": 3,
+    "text": "Marketing campaign 'Email Nurture - Enterprise Prospects' via Email (2023-02-01 to 2023-12-31): Budget $8,000, spent $7,200. Generated 890 leads, 198 MQLs, 28 conversions. Revenue attributed: $105,000, ROI: 1358.3%."
+  },
+  {
+    "type": "campaign",
+    "id": 4,
+    "text": "Marketing campaign 'SaaStr Conference 2023' via Events (2023-04-15 to 2023-04-17): Budget $35,000, spent $34,500. Generated 89 leads, 42 MQLs, 8 conversions. Revenue attributed: $185,000, ROI: 436.2%."
+  },
+  {
+    "type": "campaign",
+    "id": 5,
+    "text": "Marketing campaign 'Content Marketing - SEO Blog' via Content (2023-01-01 to 2023-12-31): Budget $42,000, spent $38,500. Generated 2840 leads, 420 MQLs, 38 conversions. Revenue attributed: $312,000, ROI: 710.4%."
+  },
+  {
+    "type": "campaign",
+    "id": 6,
+    "text": "Marketing campaign 'Q2 Retargeting Campaign' via Google Ads (2023-04-01 to 2023-06-30): Budget $12,000, spent $11,200. Generated 245 leads, 62 MQLs, 9 conversions. Revenue attributed: $72,000, ROI: 542.9%."
+  },
+  {
+    "type": "campaign",
+    "id": 7,
+    "text": "Marketing campaign 'Webinar Series - Decision Intelligence' via Webinar (2023-05-01 to 2023-11-30): Budget $18,000, spent $16,500. Generated 1240 leads, 285 MQLs, 32 conversions. Revenue attributed: $224,000, ROI: 1257.6%."
+  },
+  {
+    "type": "campaign",
+    "id": 8,
+    "text": "Marketing campaign 'Product Hunt Launch' via Product Hunt (2023-07-10 to 2023-07-10): Budget $5,000, spent $4,800. Generated 1580 leads, 320 MQLs, 42 conversions. Revenue attributed: $168,000, ROI: 3400.0%."
+  },
+  {
+    "type": "campaign",
+    "id": 9,
+    "text": "Marketing campaign 'Q3 LinkedIn Enterprise Push' via LinkedIn (2023-07-01 to 2023-09-30): Budget $20,000, spent $18,900. Generated 428 leads, 98 MQLs, 15 conversions. Revenue attributed: $132,500, ROI: 601.1%."
+  },
+  {
+    "type": "campaign",
+    "id": 10,
+    "text": "Marketing campaign 'Email Win-Back Campaign' via Email (2023-08-01 to 2023-10-31): Budget $6,000, spent $5,400. Generated 320 leads, 65 MQLs, 7 conversions. Revenue attributed: $42,000, ROI: 677.8%."
+  },
+  {
+    "type": "campaign",
+    "id": 11,
+    "text": "Marketing campaign 'Q4 Year-End Push' via Email (2023-10-01 to 2023-12-31): Budget $22,000, spent $20,500. Generated 580 leads, 145 MQLs, 24 conversions. Revenue attributed: $198,000, ROI: 866.0%."
+  },
+  {
+    "type": "campaign",
+    "id": 12,
+    "text": "Marketing campaign '2024 Brand Awareness - YouTube' via YouTube (2024-01-01 to 2024-06-30): Budget $30,000, spent $22,000. Generated 892 leads, 178 MQLs, 22 conversions. Revenue attributed: $148,000, ROI: 572.7%."
+  },
+  {
+    "type": "campaign",
+    "id": 13,
+    "text": "Marketing campaign 'Q1 2024 LinkedIn ABM' via LinkedIn (2024-01-15 to 2024-03-31): Budget $18,000, spent $16,800. Generated 285 leads, 72 MQLs, 12 conversions. Revenue attributed: $98,000, ROI: 483.3%."
+  },
+  {
+    "type": "campaign",
+    "id": 14,
+    "text": "Marketing campaign 'Google Performance Max Q2 2024' via Google Ads (2024-04-01 to 2024-06-30): Budget $28,000, spent $25,200. Generated 648 leads, 158 MQLs, 23 conversions. Revenue attributed: $189,000, ROI: 650.0%."
+  },
+  {
+    "type": "campaign",
+    "id": 15,
+    "text": "Marketing campaign 'Analyst Relations & PR Q2 2024' via PR/Media (2024-03-01 to 2024-06-30): Budget $45,000, spent $42,000. Generated 0 leads, 0 MQLs, 0 conversions. Revenue attributed: $0, ROI: -100.0%."
+  },
+  {
+    "type": "support_summary",
+    "id": 1,
+    "text": "Support ticket summary: 40 resolved tickets, avg resolution time 4.8 days, avg CSAT score 4.2/5. 10 tickets currently open/in-progress. 8 critical priority tickets raised."
+  },
+  {
+    "type": "support_ticket",
+    "id": 50,
+    "text": "Support ticket from DeltaWave Finance: Security issue, priority Critical, status In Progress. Opened 2024-06-30. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 48,
+    "text": "Support ticket from JetStream Airways: Performance issue, priority High, status In Progress. Opened 2024-06-26. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 47,
+    "text": "Support ticket from LunarFarm Organics: Billing issue, priority High, status Open. Opened 2024-06-25. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 45,
+    "text": "Support ticket from TerraFlex Properties: Integration issue, priority High, status Open. Opened 2024-06-22. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 42,
+    "text": "Support ticket from BlueSky Logistics: Bug issue, priority High, status In Progress. Opened 2024-06-15. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 41,
+    "text": "Support ticket from NovaMed Pharma: Integration issue, priority High, status In Progress. Opened 2024-06-12. Awaiting resolution."
+  },
+  {
+    "type": "support_ticket",
+    "id": 40,
+    "text": "Support ticket from HorizonBank: Security issue, priority Critical, status Closed. Opened 2024-06-08, resolved in 1 days, CSAT 5.0/5."
+  },
+  {
+    "type": "support_ticket",
+    "id": 39,
+    "text": "Support ticket from ClearPath Insurance: Bug issue, priority High, status Closed. Opened 2024-06-05, resolved in 3 days, CSAT 4.5/5."
+  },
+  {
+    "type": "support_ticket",
+    "id": 37,
+    "text": "Support ticket from DawnRise Manufacturing: Integration issue, priority High, status Closed. Opened 2024-05-25, resolved in 3 days, CSAT 4.5/5."
+  },
+  {
+    "type": "support_ticket",
+    "id": 35,
+    "text": "Support ticket from PeakForm Fitness: Billing issue, priority High, status Closed. Opened 2024-05-18, resolved in 4 days, CSAT 3.0/5."
+  },
+  {
+    "type": "supplier",
+    "id": 1,
+    "text": "Supplier 'Amazon Web Services' (Cloud Infrastructure): reliability score 98.0/100, lead time 0 days, 3 active contracts, annual spend $180,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "supplier",
+    "id": 2,
+    "text": "Supplier 'Microsoft Azure' (Cloud Infrastructure): reliability score 96.5/100, lead time 0 days, 2 active contracts, annual spend $95,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "supplier",
+    "id": 3,
+    "text": "Supplier 'Lenovo India' (Hardware): reliability score 82.0/100, lead time 14 days, 2 active contracts, annual spend $68,000. Risk: Medium. Last issue: 2024-02-15."
+  },
+  {
+    "type": "supplier",
+    "id": 4,
+    "text": "Supplier 'Ingram Micro' (Hardware Distribution): reliability score 78.0/100, lead time 21 days, 1 active contracts, annual spend $42,000. Risk: Medium. Last issue: 2023-11-20."
+  },
+  {
+    "type": "supplier",
+    "id": 5,
+    "text": "Supplier 'Salesforce' (CRM Software): reliability score 95.0/100, lead time 0 days, 1 active contracts, annual spend $28,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "supplier",
+    "id": 6,
+    "text": "Supplier 'HubSpot' (Marketing Software): reliability score 92.0/100, lead time 0 days, 1 active contracts, annual spend $18,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "supplier",
+    "id": 7,
+    "text": "Supplier 'Workday' (HR Software): reliability score 88.0/100, lead time 0 days, 1 active contracts, annual spend $22,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "supplier",
+    "id": 8,
+    "text": "Supplier 'DHL Express' (Logistics / Shipping): reliability score 71.0/100, lead time 3 days, 1 active contracts, annual spend $12,000. Risk: High. Last issue: 2024-03-10."
+  },
+  {
+    "type": "supplier",
+    "id": 9,
+    "text": "Supplier 'Tata Communications' (Networking): reliability score 85.0/100, lead time 5 days, 2 active contracts, annual spend $35,000. Risk: Low. Last issue: 2023-09-05."
+  },
+  {
+    "type": "supplier",
+    "id": 10,
+    "text": "Supplier 'WeWork India' (Office Space): reliability score 90.0/100, lead time 0 days, 1 active contracts, annual spend $96,000. Risk: Low. No recent issues."
+  },
+  {
+    "type": "expense",
+    "id": 1,
+    "text": "In 2023-01, total expenses were $205,000: Salaries $92,000, Cloud $28,000, Marketing $14,200, Office $8,000, Software $12,000, Ops $18,500, R&D $22,000, Travel $3,500."
+  },
+  {
+    "type": "expense",
+    "id": 2,
+    "text": "In 2023-02, total expenses were $194,000: Salaries $92,000, Cloud $26,500, Marketing $7,200, Office $8,000, Software $12,000, Ops $18,200, R&D $22,000, Travel $2,800."
+  },
+  {
+    "type": "expense",
+    "id": 3,
+    "text": "In 2023-03, total expenses were $238,000: Salaries $95,000, Cloud $29,000, Marketing $38,500, Office $8,000, Software $12,500, Ops $19,000, R&D $23,000, Travel $4,200."
+  },
+  {
+    "type": "expense",
+    "id": 4,
+    "text": "In 2023-04, total expenses were $218,000: Salaries $98,000, Cloud $31,000, Marketing $11,200, Office $8,000, Software $13,000, Ops $19,500, R&D $24,000, Travel $3,800."
+  },
+  {
+    "type": "expense",
+    "id": 5,
+    "text": "In 2023-05, total expenses were $224,500: Salaries $98,000, Cloud $32,000, Marketing $16,500, Office $8,000, Software $13,500, Ops $20,000, R&D $24,000, Travel $4,100."
+  },
+  {
+    "type": "expense",
+    "id": 6,
+    "text": "In 2023-06, total expenses were $233,000: Salaries $102,000, Cloud $33,500, Marketing $18,900, Office $8,200, Software $14,000, Ops $20,500, R&D $25,000, Travel $4,500."
+  },
+  {
+    "type": "expense",
+    "id": 7,
+    "text": "In 2023-07, total expenses were $237,000: Salaries $105,000, Cloud $35,000, Marketing $14,200, Office $8,200, Software $14,500, Ops $21,000, R&D $26,000, Travel $5,000."
+  },
+  {
+    "type": "expense",
+    "id": 8,
+    "text": "In 2023-08, total expenses were $229,000: Salaries $105,000, Cloud $36,000, Marketing $5,400, Office $8,200, Software $14,500, Ops $21,500, R&D $26,500, Travel $4,200."
+  },
+  {
+    "type": "expense",
+    "id": 9,
+    "text": "In 2023-09, total expenses were $251,000: Salaries $108,000, Cloud $37,500, Marketing $20,500, Office $8,500, Software $15,000, Ops $22,000, R&D $27,000, Travel $4,800."
+  },
+  {
+    "type": "expense",
+    "id": 10,
+    "text": "In 2023-10, total expenses were $252,000: Salaries $110,000, Cloud $38,500, Marketing $16,800, Office $8,500, Software $15,000, Ops $22,500, R&D $27,500, Travel $5,200."
+  },
+  {
+    "type": "expense",
+    "id": 11,
+    "text": "In 2023-11, total expenses were $261,500: Salaries $112,000, Cloud $40,000, Marketing $20,500, Office $8,500, Software $15,500, Ops $23,000, R&D $28,000, Travel $5,500."
+  },
+  {
+    "type": "expense",
+    "id": 12,
+    "text": "In 2023-12, total expenses were $283,000: Salaries $118,000, Cloud $42,000, Marketing $25,200, Office $9,000, Software $16,500, Ops $25,000, R&D $30,000, Travel $7,500."
+  },
+  {
+    "type": "expense",
+    "id": 13,
+    "text": "In 2024-01, total expenses were $264,000: Salaries $115,000, Cloud $40,000, Marketing $16,800, Office $9,000, Software $16,000, Ops $23,500, R&D $29,000, Travel $5,000."
+  },
+  {
+    "type": "expense",
+    "id": 14,
+    "text": "In 2024-02, total expenses were $260,000: Salaries $118,000, Cloud $41,500, Marketing $7,200, Office $9,000, Software $16,500, Ops $24,000, R&D $29,500, Travel $4,800."
+  },
+  {
+    "type": "expense",
+    "id": 15,
+    "text": "In 2024-03, total expenses were $305,500: Salaries $122,000, Cloud $43,500, Marketing $42,000, Office $9,500, Software $17,000, Ops $25,000, R&D $30,000, Travel $6,200."
+  },
+  {
+    "type": "expense",
+    "id": 16,
+    "text": "In 2024-04, total expenses were $296,000: Salaries $125,000, Cloud $45,000, Marketing $25,200, Office $9,500, Software $17,500, Ops $25,500, R&D $31,000, Travel $6,500."
+  },
+  {
+    "type": "expense",
+    "id": 17,
+    "text": "In 2024-05, total expenses were $293,500: Salaries $128,000, Cloud $46,500, Marketing $16,500, Office $9,500, Software $18,000, Ops $26,000, R&D $32,000, Travel $5,800."
+  },
+  {
+    "type": "expense",
+    "id": 18,
+    "text": "In 2024-06, total expenses were $312,000: Salaries $132,000, Cloud $48,000, Marketing $25,200, Office $10,000, Software $18,500, Ops $27,000, R&D $33,000, Travel $6,800."
+  },
+  {
+    "type": "kpi",
+    "id": 1,
+    "text": "KPIs for Q1 2023: MRR $845,000, ARR $10,140,000, churn rate 3.2%, NPS 42, CAC $2,800, avg deal size $4,500, pipeline velocity 68.0 days, win rate 24.0%."
+  },
+  {
+    "type": "kpi",
+    "id": 2,
+    "text": "KPIs for Q2 2023: MRR $945,000, ARR $11,340,000, churn rate 2.8%, NPS 45, CAC $2,600, avg deal size $4,800, pipeline velocity 64.0 days, win rate 25.5%."
+  },
+  {
+    "type": "kpi",
+    "id": 3,
+    "text": "KPIs for Q3 2023: MRR $1,050,000, ARR $12,600,000, churn rate 2.5%, NPS 48, CAC $2,400, avg deal size $5,200, pipeline velocity 60.0 days, win rate 27.0%."
+  },
+  {
+    "type": "kpi",
+    "id": 4,
+    "text": "KPIs for Q4 2023: MRR $1,210,000, ARR $14,520,000, churn rate 2.1%, NPS 51, CAC $2,200, avg deal size $5,600, pipeline velocity 57.0 days, win rate 29.5%."
+  },
+  {
+    "type": "kpi",
+    "id": 5,
+    "text": "KPIs for Q1 2024: MRR $1,231,000, ARR $14,772,000, churn rate 1.9%, NPS 54, CAC $2,100, avg deal size $5,900, pipeline velocity 54.0 days, win rate 30.8%."
+  },
+  {
+    "type": "kpi",
+    "id": 6,
+    "text": "KPIs for Q2 2024: MRR $1,341,000, ARR $16,092,000, churn rate 2.0%, NPS 52, CAC $2,150, avg deal size $6,100, pipeline velocity 55.0 days, win rate 30.2%."
+  },
+  {
+    "type": "contract",
+    "id": 1,
+    "text": "Contract with Apex Retail Corp: ARR $384,000, health score 92/100, renews 2024-12-31. Status: Active. Products: Analytics Enterprise + Support Gold. Expansion potential: Medium."
+  },
+  {
+    "type": "contract",
+    "id": 2,
+    "text": "Contract with BlueSky Logistics: ARR $330,000, health score 62/100, renews 2024-08-31. Status: At Risk. Products: Analytics Enterprise + API. Expansion potential: Low."
+  },
+  {
+    "type": "contract",
+    "id": 3,
+    "text": "Contract with CoreTech Solutions: ARR $114,000, health score 85/100, renews 2025-02-28. Status: Active. Products: Analytics Pro + Support Silver. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 4,
+    "text": "Contract with DeltaWave Finance: ARR $492,000, health score 95/100, renews 2024-11-30. Status: Active. Products: Analytics Enterprise + Compliance Add-on. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 5,
+    "text": "Contract with EcoGrow Industries: ARR $57,600, health score 38/100, renews 2024-07-31. Status: At Risk. Products: Analytics Starter + Data Pod. Expansion potential: Low."
+  },
+  {
+    "type": "contract",
+    "id": 6,
+    "text": "Contract with FusionMed Hospital: ARR $456,000, health score 88/100, renews 2025-03-31. Status: Active. Products: Analytics Enterprise + Support Platinum. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 7,
+    "text": "Contract with GreenPath Energy: ARR $86,400, health score 72/100, renews 2024-12-31. Status: Active. Products: Analytics Pro + Advanced Module. Expansion potential: Medium."
+  },
+  {
+    "type": "contract",
+    "id": 8,
+    "text": "Contract with HorizonBank: ARR $624,000, health score 91/100, renews 2024-10-31. Status: Active. Products: Analytics Enterprise x2 + Support Platinum. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 9,
+    "text": "Contract with InnovateTech Startup: ARR $21,600, health score 45/100, renews 2025-01-31. Status: At Risk. Products: Analytics Starter. Expansion potential: Low."
+  },
+  {
+    "type": "contract",
+    "id": 10,
+    "text": "Contract with JetStream Airways: ARR $348,000, health score 70/100, renews 2024-09-14. Status: At Risk. Products: Analytics Enterprise + Gateway Devices. Expansion potential: Low."
+  },
+  {
+    "type": "contract",
+    "id": 11,
+    "text": "Contract with NovaMed Pharma: ARR $534,000, health score 94/100, renews 2025-05-31. Status: Active. Products: Analytics Enterprise + Integration + Support Platinum. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 12,
+    "text": "Contract with SolarNest Energy: ARR $108,000, health score 82/100, renews 2025-04-30. Status: Active. Products: Analytics Pro + Advanced Module. Expansion potential: Medium."
+  },
+  {
+    "type": "contract",
+    "id": 13,
+    "text": "Contract with AtlasGlobal Trade: ARR $408,000, health score 89/100, renews 2024-11-30. Status: Active. Products: Analytics Enterprise + Compliance Add-on. Expansion potential: High."
+  },
+  {
+    "type": "contract",
+    "id": 14,
+    "text": "Contract with ClearPath Insurance: ARR $342,000, health score 87/100, renews 2025-07-31. Status: Active. Products: Analytics Enterprise + Support Gold. Expansion potential: Medium."
+  },
+  {
+    "type": "contract",
+    "id": 15,
+    "text": "Contract with DawnRise Manufacturing: ARR $552,000, health score 76/100, renews 2024-09-30. Status: At Risk. Products: Analytics Enterprise + Gateway Devices + Support Platinum. Expansion potential: Medium."
+  },
+  {
+    "type": "insight",
+    "id": 1001,
+    "text": "Top revenue-generating products YTD: Onboarding & Training ($105,000, 68.0% margin), Custom Integration Service ($90,000, 60.0% margin), Data Migration Service ($64,000, 56.3% margin), Analytics Dashboard Hub ($57,600, 43.8% margin), Edge Gateway Device ($51,000, 43.3% margin)."
+  },
+  {
+    "type": "insight",
+    "id": 1002,
+    "text": "Highest ROI marketing campaigns: Product Hunt Launch via Product Hunt (3400.0% ROI, 42 conversions), Email Nurture - Enterprise Prospects via Email (1358.3% ROI, 28 conversions), Webinar Series - Decision Intelligence via Webinar (1257.6% ROI, 32 conversions)."
+  },
+  {
+    "type": "insight",
+    "id": 1003,
+    "text": "Contracts at risk of not renewing: DawnRise Manufacturing (ARR $552,000, health 76/100, renews 2024-09-30), JetStream Airways (ARR $348,000, health 70/100, renews 2024-09-14), BlueSky Logistics (ARR $330,000, health 62/100, renews 2024-08-31), EcoGrow Industries (ARR $57,600, health 38/100, renews 2024-07-31), InnovateTech Startup (ARR $21,600, health 45/100, renews 2025-01-31). Total at-risk ARR: $1,309,200."
+  },
+  {
+    "type": "insight",
+    "id": 1004,
+    "text": "Business KPI trend: ARR grew from $10,140,000 in Q1 2023 to $16,092,000 in Q2 2024. Churn improved from 3.2% to 2.0%. NPS improved from 42 to 52."
+  },
+  {
+    "type": "insight",
+    "id": 1005,
+    "text": "Recent monthly expense trend: 2024-06: $312,000 total (salaries $132,000, cloud $48,000), 2024-05: $293,500 total (salaries $128,000, cloud $46,500), 2024-04: $296,000 total (salaries $125,000, cloud $45,000)."
+  },
+  {
+    "type": "insight",
+    "id": 1006,
+    "text": "High-risk suppliers: DHL Express (reliability 71.0/100, last issue 2024-03-10)"
+  },
+  {
+    "type": "insight",
+    "id": 1007,
+    "text": "Inventory alerts: USB-C Hub 4-Port has 15 units (6 days supply, reorder at 25), Sensor Array Module has 12 units (8 days supply, reorder at 15), Replacement Battery Pack has 38 units (12 days supply, reorder at 30), Network Switch 8-Port has 28 units (14 days supply, reorder at 20). Immediate reorder required for critical items."
+  }
+]
