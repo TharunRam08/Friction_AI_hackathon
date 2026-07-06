@@ -7,13 +7,25 @@ import json
 import os
 # pyrefly: ignore [missing-import]
 import chromadb
-# pyrefly: ignore [missing-import]
-from sentence_transformers import SentenceTransformer
+import numpy as np
+
+class MockSentenceTransformer:
+    def __init__(self, name=None):
+        pass
+    def encode(self, text: str):
+        # Generate deterministic mock unit embedding based on text hash
+        val = sum(ord(c) for c in text)
+        np.random.seed(val % 10000)
+        vector = np.random.uniform(-1, 1, 384)
+        norm = np.linalg.norm(vector)
+        if norm > 0:
+            vector = vector / norm
+        return vector
 
 JSON_PATH = os.path.join(os.path.dirname(__file__), "crm_knowledge.json")
 
-# 1. Load the embedding model (runs locally)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+# 1. Load the embedding model (mocked to run with 0MB RAM)
+model = MockSentenceTransformer('all-MiniLM-L6-v2')
 
 # 2. Create an in-memory Chroma DB
 chroma_client = chromadb.Client()
