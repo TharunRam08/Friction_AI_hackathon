@@ -7,7 +7,8 @@ import {
   X, ChevronRight, Database, RefreshCw, AlertCircle,
   FileText, Zap, Shield, Eye, Brain, GitBranch,
   AlertTriangle, Target, ChevronDown, ChevronUp,
-  Package, Archive, HelpCircle, Truck, CreditCard, Activity
+  Package, Archive, HelpCircle, Truck, CreditCard, Activity,
+  Menu
 } from 'lucide-react';
 
 const API = import.meta.env.VITE_API_URL;
@@ -1626,6 +1627,7 @@ function App() {
   const [messages, setMessages]         = useState([]);
   const [loadingStepIdx, setLoadingIdx] = useState(null);
   const [isSidebarOpen, setSidebar]     = useState(true);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [dataSources, setDataSources]   = useState([]);
   const [sourcesLoading, setSrcLoading] = useState(true);
   const [activeSource, setActiveSource] = useState(null);
@@ -1759,136 +1761,160 @@ function App() {
 
   const currentLoading = messages.find(m => m.loading);
 
+  const renderSidebar = (isMobileDrawer = false) => {
+    return (
+      <div className="flex-1 flex flex-col min-h-0 bg-[#111112] select-none h-full">
+        {/* Brand Logo & Navigation */}
+        <div className="p-5 flex-shrink-0 flex justify-between items-center border-b border-[#1a1a1c]">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-[#f4f4f5] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden shadow-[0_0_8px_rgba(255,255,255,0.05)] border border-[#232325]">
+              <img src="/logo.png" className="w-[140%] h-[140%] max-w-none object-cover" alt="Friction Logo" />
+            </div>
+            <div className="flex flex-col justify-center leading-none">
+              <span className="text-[20px] font-bold text-white tracking-wider uppercase" style={{ fontFamily: "'Oswald', sans-serif" }}>Friction</span>
+              <span className="text-[8.5px] text-zinc-500 font-semibold tracking-wider mt-0.5 uppercase">AI Business Reasoning Engine</span>
+            </div>
+          </div>
+          {isMobileDrawer && (
+            <button onClick={() => setMobileDrawerOpen(false)}
+              className="p-1.5 rounded-lg border border-[#2a2a2f] bg-[#181819] hover:bg-zinc-800 transition">
+              <X className="w-4 h-4 text-zinc-400" />
+            </button>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-7 min-h-0">
+          <div className="space-y-1">
+            <button onClick={() => { setCurrentPage('dashboard'); if (isMobileDrawer) setMobileDrawerOpen(false); }}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'dashboard' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
+              <Sparkles className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Decision Dashboard</span>
+            </button>
+            <button onClick={() => { setCurrentPage('architecture'); if (isMobileDrawer) setMobileDrawerOpen(false); }}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'architecture' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
+              <GitBranch className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Engine Architecture</span>
+            </button>
+          </div>
+
+          {/* ── DATA SOURCES ── */}
+          <div className="space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[9.5px] font-bold text-zinc-500 tracking-widest uppercase">Data Sources</span>
+              {sourcesLoading
+                ? <Loader2 className="w-3 h-3 text-zinc-600 animate-spin" />
+                : <span className="text-[10px] text-zinc-700 font-semibold">{dataSources.length} connected</span>
+              }
+            </div>
+            <ul className="space-y-1">
+              {dataSources.map(src => (
+                <li key={src.id}>
+                  <button onClick={() => { setActiveSource(src); if (isMobileDrawer) setMobileDrawerOpen(false); }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:bg-[#161618] hover:border-[#222224] transition-all group text-left">
+                    <div className="w-7 h-7 rounded-lg bg-[#1a1a1c] group-hover:bg-[#1e1e21] flex items-center justify-center flex-shrink-0 transition">
+                      <SrcIcon name={src.icon} className="w-3.5 h-3.5 text-zinc-500 group-hover:text-blue-400 transition" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] font-semibold text-zinc-400 group-hover:text-white transition">{src.label}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-mono text-zinc-600">{src.row_count}</span>
+                          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_5px_#10b981]" />
+                        </div>
+                      </div>
+                      <div className="text-[10px] text-zinc-700 truncate mt-0.5">{src.summary}</div>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-[#1e1e21] hover:border-zinc-700 hover:bg-[#161618] text-zinc-600 hover:text-zinc-300 rounded-xl text-[11px] font-semibold tracking-wide transition">
+              <Plus className="w-3.5 h-3.5" />Connect source
+            </button>
+          </div>
+
+          {/* ── PIPELINE ── */}
+          <div className="space-y-2.5">
+            <div className="text-[9.5px] font-bold text-zinc-500 tracking-widest uppercase">Cognitive Pipeline</div>
+            {['Understand','Analyze','Reason','Verify','Decide'].map(phase => (
+              <div key={phase} className="space-y-1">
+                <div className={`text-[9px] font-bold uppercase tracking-widest pl-1 ${PHASE_COLORS[phase]}`}>{phase}</div>
+                {ALL_PIPELINE_STEPS.filter(s => s.group === phase).map((step, si) => {
+                  const globalIdx = ALL_PIPELINE_STEPS.findIndex(x => x.label === step.label);
+                  let icon, textClass = 'text-zinc-600';
+                  const lastResult = messages.filter(m => !m.loading && m.result).slice(-1)[0];
+                  const executed = lastResult?.result?.pipeline_executed || [];
+                  const wasExecuted = executed.some(e =>
+                    e.toLowerCase().replace(/[' ]/g,'') === step.label.toLowerCase().replace(/[' ]/g,'')
+                  );
+
+                  if (currentLoading) {
+                    if (globalIdx < loadingStepIdx) {
+                      icon = <Check className="w-3.5 h-3.5 text-emerald-500 stroke-[3]" />;
+                      textClass = 'text-zinc-400';
+                    } else if (globalIdx === loadingStepIdx) {
+                      icon = <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />;
+                      textClass = `${PHASE_COLORS[phase]} font-semibold animate-pulse`;
+                    } else {
+                      icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
+                    }
+                  } else if (wasExecuted) {
+                    icon = <Check className="w-3.5 h-3.5 text-emerald-500 stroke-[3]" />;
+                    textClass = 'text-zinc-400';
+                  } else if (messages.length > 0) {
+                    icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
+                    textClass = 'text-zinc-700';
+                  } else {
+                    icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
+                  }
+
+                  return (
+                    <div key={step.label} className="flex items-center gap-2.5 pl-2">
+                      <div className="w-4 h-4 flex items-center justify-center flex-shrink-0">{icon}</div>
+                      <span className={`text-[11px] leading-none ${textClass}`}>{step.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-5 py-3.5 border-t border-[#1a1a1c] flex items-center justify-between flex-shrink-0">
+          <span className="text-[10px] text-zinc-700 font-medium">v2.0 · 16 Modules</span>
+          <button onClick={() => { setSrcLoading(true);
+            axios.get(`${API}/data-sources`)
+              .then(r => { setDataSources(r.data.sources||[]); setSrcLoading(false); })
+              .catch(() => setSrcLoading(false)); }}
+            className="text-zinc-600 hover:text-zinc-400 transition" title="Refresh">
+            <RefreshCw className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex h-screen bg-[#0d0d0e] text-[#e4e4e7] overflow-hidden font-sans">
 
       {/* ═══════ DATA VIEWER MODAL ═══════ */}
       {activeSource && <DataViewer source={activeSource} onClose={() => setActiveSource(null)} />}
 
-      {/* ═══════ SIDEBAR ═══════ */}
+      {/* Mobile Drawer Overlay */}
+      {mobileDrawerOpen && (
+        <div className="fixed inset-0 z-[80] flex md:hidden">
+          <div className="fixed inset-0 bg-black/75 backdrop-blur-sm" onClick={() => setMobileDrawerOpen(false)} />
+          <div className="relative w-[280px] h-full bg-[#111112] border-r border-[#1c1c1f] z-10 flex flex-col">
+            {renderSidebar(true)}
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar (hidden on mobile, persistent on desktop if isSidebarOpen is true) */}
       {isSidebarOpen && (
-        <div className="w-[268px] bg-[#111112] border-r border-[#1c1c1f] flex flex-col flex-shrink-0 select-none">
-          <div className="flex-1 overflow-y-auto p-5 space-y-7">
-            {/* Brand Logo & Navigation */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pt-1">
-                <div className="w-9 h-9 bg-[#f4f4f5] rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden shadow-[0_0_8px_rgba(255,255,255,0.05)] border border-[#232325]">
-                  <img src="/logo.png" className="w-[140%] h-[140%] max-w-none object-cover" alt="Friction Logo" />
-                </div>
-                <div className="flex flex-col justify-center leading-none">
-                  <span className="text-[20px] font-bold text-white tracking-wider uppercase" style={{ fontFamily: "'Oswald', sans-serif" }}>Friction</span>
-                  <span className="text-[8.5px] text-zinc-500 font-semibold tracking-wider mt-0.5 uppercase">AI Business Reasoning Engine</span>
-                </div>
-              </div>
-
-              <div className="space-y-1 pt-2 border-t border-[#1a1a1c]">
-                <button onClick={() => setCurrentPage('dashboard')}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'dashboard' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
-                  <Sparkles className="w-3.5 h-3.5 text-zinc-500" />
-                  <span>Decision Dashboard</span>
-                </button>
-                <button onClick={() => setCurrentPage('architecture')}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border text-[11.5px] font-semibold transition-all text-left ${currentPage === 'architecture' ? 'bg-[#161617] border-[#232325] text-white' : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-[#161618]/50'}`}>
-                  <GitBranch className="w-3.5 h-3.5 text-zinc-500" />
-                  <span>Engine Architecture</span>
-                </button>
-              </div>
-            </div>
-
-            {/* ── DATA SOURCES ── */}
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-[9.5px] font-bold text-zinc-500 tracking-widest uppercase">Data Sources</span>
-                {sourcesLoading
-                  ? <Loader2 className="w-3 h-3 text-zinc-600 animate-spin" />
-                  : <span className="text-[10px] text-zinc-700 font-semibold">{dataSources.length} connected</span>
-                }
-              </div>
-              <ul className="space-y-1">
-                {dataSources.map(src => (
-                  <li key={src.id}>
-                    <button onClick={() => setActiveSource(src)}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:bg-[#161618] hover:border-[#222224] transition-all group text-left">
-                      <div className="w-7 h-7 rounded-lg bg-[#1a1a1c] group-hover:bg-[#1e1e21] flex items-center justify-center flex-shrink-0 transition">
-                        <SrcIcon name={src.icon} className="w-3.5 h-3.5 text-zinc-500 group-hover:text-blue-400 transition" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[12px] font-semibold text-zinc-400 group-hover:text-white transition">{src.label}</span>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] font-mono text-zinc-600">{src.row_count}</span>
-                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_5px_#10b981]" />
-                          </div>
-                        </div>
-                        <div className="text-[10px] text-zinc-700 truncate mt-0.5">{src.summary}</div>
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-transparent border border-[#1e1e21] hover:border-zinc-700 hover:bg-[#161618] text-zinc-600 hover:text-zinc-300 rounded-xl text-[11px] font-semibold tracking-wide transition">
-                <Plus className="w-3.5 h-3.5" />Connect source
-              </button>
-            </div>
-
-            {/* ── PIPELINE ── */}
-            <div className="space-y-2">
-              <div className="text-[9.5px] font-bold text-zinc-500 tracking-widest uppercase">Cognitive Pipeline</div>
-              {['Understand','Analyze','Reason','Verify','Decide'].map(phase => (
-                <div key={phase} className="space-y-1">
-                  <div className={`text-[9px] font-bold uppercase tracking-widest pl-1 ${PHASE_COLORS[phase]}`}>{phase}</div>
-                  {ALL_PIPELINE_STEPS.filter(s => s.group === phase).map((step, si) => {
-                    const globalIdx = ALL_PIPELINE_STEPS.findIndex(x => x.label === step.label);
-                    let icon, textClass = 'text-zinc-600';
-                    const lastResult = messages.filter(m => !m.loading && m.result).slice(-1)[0];
-                    const executed = lastResult?.result?.pipeline_executed || [];
-                    const wasExecuted = executed.some(e =>
-                      e.toLowerCase().replace(/[' ]/g,'') === step.label.toLowerCase().replace(/[' ]/g,'')
-                    );
-
-                    if (currentLoading) {
-                      if (globalIdx < loadingStepIdx) {
-                        icon = <Check className="w-3.5 h-3.5 text-emerald-500 stroke-[3]" />;
-                        textClass = 'text-zinc-400';
-                      } else if (globalIdx === loadingStepIdx) {
-                        icon = <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />;
-                        textClass = `${PHASE_COLORS[phase]} font-semibold animate-pulse`;
-                      } else {
-                        icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
-                      }
-                    } else if (wasExecuted) {
-                      icon = <Check className="w-3.5 h-3.5 text-emerald-500 stroke-[3]" />;
-                      textClass = 'text-zinc-400';
-                    } else if (messages.length > 0) {
-                      icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
-                      textClass = 'text-zinc-700';
-                    } else {
-                      icon = <div className="w-1.5 h-1.5 bg-zinc-800 rounded-full mx-1" />;
-                    }
-
-                    return (
-                      <div key={step.label} className="flex items-center gap-2.5 pl-2">
-                        <div className="w-4 h-4 flex items-center justify-center flex-shrink-0">{icon}</div>
-                        <span className={`text-[11px] leading-none ${textClass}`}>{step.label}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="px-5 py-3.5 border-t border-[#1a1a1c] flex items-center justify-between">
-            <span className="text-[10px] text-zinc-700 font-medium">v2.0 · 16 Modules</span>
-            <button onClick={() => { setSrcLoading(true);
-              axios.get(`${API}/data-sources`)
-                .then(r => { setDataSources(r.data.sources||[]); setSrcLoading(false); })
-                .catch(() => setSrcLoading(false)); }}
-              className="text-zinc-600 hover:text-zinc-400 transition" title="Refresh">
-              <RefreshCw className="w-3.5 h-3.5" />
-            </button>
-          </div>
+        <div className="hidden md:flex w-[268px] bg-[#111112] border-r border-[#1c1c1f] flex-col flex-shrink-0 select-none h-screen">
+          {renderSidebar(false)}
         </div>
       )}
 
@@ -1896,10 +1922,16 @@ function App() {
       <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0d0d0e]">
         {/* Header */}
         <div className="h-14 border-b border-[#1a1a1c] px-6 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            {/* Hamburger Button for Mobile */}
+            <button onClick={() => setMobileDrawerOpen(true)}
+              className="flex md:hidden w-8 h-8 rounded-lg bg-[#161617] border border-[#232325] items-center justify-center hover:bg-zinc-800 transition">
+              <Menu className="w-4 h-4 text-zinc-400" />
+            </button>
+
             {!isSidebarOpen && (
               <button onClick={() => setSidebar(true)}
-                className="w-8 h-8 rounded-lg bg-[#161617] border border-[#232325] flex items-center justify-center hover:bg-zinc-800 transition">
+                className="hidden md:flex w-8 h-8 rounded-lg bg-[#161617] border border-[#232325] items-center justify-center hover:bg-zinc-800 transition">
                 <ChevronRight className="w-4 h-4 text-zinc-400" />
               </button>
             )}
@@ -1909,8 +1941,8 @@ function App() {
           </div>
           {isSidebarOpen && (
             <button onClick={() => setSidebar(false)}
-              className="text-zinc-600 hover:text-zinc-300 text-xs font-medium px-2.5 py-1 rounded bg-[#161617] border border-[#232325] transition">
-              Hide
+              className="hidden md:block text-zinc-600 hover:text-zinc-300 text-xs font-medium px-2.5 py-1 rounded bg-[#161617] border border-[#232325] transition">
+              Hide Sidebar
             </button>
           )}
         </div>
@@ -1919,7 +1951,7 @@ function App() {
         {currentPage === 'architecture' ? (
           <ArchitecturePage />
         ) : (
-          <div className="flex-1 overflow-y-auto px-8 py-6 space-y-8 max-w-4xl w-full mx-auto flex flex-col">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-8 max-w-4xl w-full mx-auto flex flex-col">
 
             {messages.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center py-16 space-y-6">
@@ -1947,7 +1979,7 @@ function App() {
                   </div>
                 )}
                 {/* Starter queries */}
-                <div className="w-full max-w-xl grid grid-cols-2 gap-2.5 pt-2">
+                <div className="w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
                   {[
                     { q: 'Should we hire more sales reps?',     desc: 'Team capacity & pipeline analysis' },
                     { q: 'Should we open another branch?',       desc: 'Expansion risk & past cases' },
@@ -2010,7 +2042,7 @@ function App() {
 
         {/* Input bar */}
         {currentPage === 'dashboard' && (
-          <div className="p-6 bg-[#0d0d0e] border-t border-[#1a1a1c] flex-shrink-0 flex justify-center">
+          <div className="p-4 sm:p-6 bg-[#0d0d0e] border-t border-[#1a1a1c] flex-shrink-0 flex justify-center">
             <div className="max-w-4xl w-full flex gap-3">
               <input
                 className="flex-1 bg-[#161617] border border-[#232325] text-zinc-200 text-[13.5px] rounded-xl px-4 py-3.5 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition"
