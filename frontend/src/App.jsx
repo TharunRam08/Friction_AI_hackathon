@@ -10,7 +10,7 @@ import {
   Package, Archive, HelpCircle, Truck, CreditCard, Activity
 } from 'lucide-react';
 
-const API = 'http://localhost:8000';
+const API = import.meta.env.VITE_API_URL;
 
 // ── Icon resolver ────────────────────────────────────────────────────────────
 function SrcIcon({ name, className }) {
@@ -529,6 +529,13 @@ function RichOutputCard({ result }) {
   const [selectedModuleId, setSelectedModuleId] = useState('M01');
   const [selectedFuturePathIndex, setSelectedFuturePathIndex] = useState(0);
 
+  // Future Simulator State
+  const [activeScenarioIdx, setActiveScenarioIdx] = useState(1); // default: Balanced
+  const [forecastData, setForecastData] = useState(null);
+  const [forecastLoading, setForecastLoading] = useState(false);
+  const [forecastError, setForecastError] = useState(null);
+  const [activeMetric, setActiveMetric] = useState('revenue');
+
   if (!result || !result.output) return null;
 
   const {
@@ -544,29 +551,124 @@ function RichOutputCard({ result }) {
   } = result;
 
   const frictionColor = {
-    LOW:    'text-emerald-400 bg-emerald-900/20 border-emerald-800/40',
+    LOW: 'text-emerald-400 bg-emerald-900/20 border-emerald-800/40',
     MEDIUM: 'text-amber-400 bg-amber-900/20 border-amber-800/40',
-    HIGH:   'text-red-400 bg-red-900/20 border-red-800/40',
+    HIGH: 'text-red-400 bg-red-900/20 border-red-800/40',
   }[frictionLevel] || 'text-zinc-400 bg-zinc-900/20 border-zinc-700';
 
   const verdictText = output.verdict || '';
   const contextExplanation = output.context_explanation || output.narrative || '';
   const statsExplanation = output.stats_explanation || '';
-  const keyStats    = output.key_stats || [];
-  const scenarios   = output.scenarios || [];
-  const devils      = output.devils_advocate || [];
-  const actionPlan  = output.action_plan || [];
-  const ifIgnored   = output.if_ignored || [];
+  const keyStats = output.key_stats || [];
+  const scenarios = output.scenarios || [];
+  const devils = output.devils_advocate || [];
+  const actionPlan = output.action_plan || [];
+  const ifIgnored = output.if_ignored || [];
   const departments = output.departments || [];
-  const confidence  = output.confidence || 0;
-  const breakdown   = output.confidence_breakdown || {};
+  const confidence = output.confidence || 0;
+  const breakdown = output.confidence_breakdown || {};
   const evidenceScore = output.evidence_score || 0;
-  const constraints   = output.constraints_check || [];
-  const selfReview    = output.self_review || '';
-  const rootCause     = output.root_cause_summary || '';
-  const regret        = output.regret_choice || '';
-  const mistakeCtx    = output.mistake_context;
-  const patternMatch  = output.pattern_match;
+  const constraints = output.constraints_check || [];
+  const selfReview = output.self_review || '';
+  const rootCause = output.root_cause_summary || '';
+  const regret = output.regret_choice || '';
+  const mistakeCtx = output.mistake_context;
+  const patternMatch = output.pattern_match;
+
+  const decisionLabel = intent?.goal || question || verdictText?.slice(0, 80) || 'this decision';
+
+  useEffect(() => {
+    if (!result) return;
+    const fetchForecast = async () => {
+      setForecastLoading(true);
+      setForecastError(null);
+      try {
+        const res = await fetch(`${API}/future-forecast`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            decision: decisionLabel,
+            scenarios: scenarios,
+            context: context || {}
+          })
+        });
+        const data = await res.json();
+        setForecastData(data);
+      } catch (e) {
+        setForecastError('Could not load forecast.');
+      } finally {
+        setForecastLoading(false);
+      }
+    };
+    fetchForecast();
+  }, [result]);
+
+  const months = forecastData?.months || ['M1','M2','M3','M4','M5','M6'];
+
+  const getMetricData = (sc) => {
+    if (!sc) return [];
+    return activeMetric === 'revenue' ? sc.revenue
+         : activeMetric === 'pipeline' ? sc.pipeline
+         : sc.customers;
+  };
+
+  const getConciseContext = (text) => {
+    if (!text) return "";
+    let cleaned = text.replace(/\s+/g, ' ').trim();
+    const words = cleaned.split(' ');
+    if (words.length > 100) {
+      return words.slice(0, 100).join(' ') + '...';
+    }
+    return cleaned;
+  };
+
+  const getCleanMemory = (raw) => {
+    if (!raw) return "No previous matching cases found in vector memory.";
+    
+    let semanticPart = "";
+    let livePart = "";
+    
+    if (raw.includes("[LIVE CRM METRICS]")) {
+      const splitParts = raw.split("[LIVE CRM METRICS]");
+      semanticPart = splitParts[0].replace("[SEMANTIC MATCH FROM KNOWLEDGE BASE]", "").trim();
+      livePart = splitParts[1].trim();
+    } else {
+      semanticPart = raw.replace("[SEMANTIC MATCH FROM KNOWLEDGE BASE]", "").trim();
+    }
+    
+    const semanticEntries = semanticPart
+      .split("|")
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(entry => {
+        return entry.replace(/\[DECISION-[^\]]+\]/gi, "").trim();
+      })
+      .filter(Boolean);
+      
+    const liveEntries = livePart
+      .split("\n")
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(entry => {
+        return entry.replace(/\[[A-Z_]+\]/g, "").trim();
+      })
+      .filter(Boolean);
+      
+    let summary = "";
+    if (semanticEntries.length > 0) {
+      summary += `Historically, ${semanticEntries.join(" Additionally, ")} `;
+    }
+    if (liveEntries.length > 0) {
+      summary += `Currently, our internal records show that ${liveEntries.join(" Furthermore, ")}`;
+    }
+    
+    if (!summary) {
+      summary = raw.replace(/\[[^\]]+\]/g, "").replace(/\s+/g, " ").trim();
+    }
+    
+    summary = summary.replace(/\s+/g, ' ').replace(/\.\s*\./g, '.').replace(/\s+([.,;])/g, '$1').trim();
+    return summary;
+  };
 
   // Build the 16 cognitive pipeline modules detailed audit data
   const auditModules = [
@@ -865,7 +967,7 @@ function RichOutputCard({ result }) {
           <div className="space-y-4">
             <h4 className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-1">Devil's Advocate Challenge & Stresses</h4>
             <div className="bg-[#161617] border border-red-900/20 p-5 rounded-xl space-y-3.5">
-              <div className="flex items-center gap-2 text-[11px] text-red-400 font-bold uppercase tracking-wide">
+              <div className="flex items-center gap-2 text-red-400 font-bold uppercase tracking-wide">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Identified blindspots and vulnerabilities</span>
               </div>
@@ -919,7 +1021,7 @@ function RichOutputCard({ result }) {
                 ].map((bar, i) => (
                   <div key={i} className="bg-[#0b0b0c] p-3 rounded-lg border border-[#1e1e22] space-y-1.5">
                     <div className="flex justify-between items-center text-[10px]">
-                      <span className="text-zinc-500 font-semibold">{bar.label}</span>
+                      <span className="text-zinc-550 font-semibold">{bar.label}</span>
                       <span className="text-zinc-400 font-mono font-bold">{bar.val}% <span className="text-zinc-600">({bar.weight})</span></span>
                     </div>
                     <div className="h-1 bg-zinc-900 rounded-full overflow-hidden">
@@ -941,7 +1043,7 @@ function RichOutputCard({ result }) {
                 constraints.map((c, i) => {
                   const isOk = c.status?.toLowerCase() === 'ok';
                   const isWarn = c.status?.toLowerCase() === 'warning';
-                  const badgeColor = isOk ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/30' : isWarn ? 'bg-amber-955 text-amber-400 border border-amber-800/40' : 'bg-red-955 text-red-400 border border-red-800/30';
+                  const badgeColor = isOk ? 'bg-emerald-955 text-emerald-400 border border-emerald-800/30' : isWarn ? 'bg-amber-955 text-amber-400 border border-amber-800/40' : 'bg-red-955 text-red-400 border-red-800/30';
                   return (
                     <div key={i} className="flex justify-between items-center text-[11.5px] bg-[#0b0b0c] p-3 rounded-lg border border-[#1b1b1e]">
                       <div className="flex items-center gap-2">
@@ -980,7 +1082,7 @@ function RichOutputCard({ result }) {
       case "M14":
         return (
           <div className="space-y-4">
-            <h4 className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-1">Final executive Directive resolution</h4>
+            <h4 className="text-[11px] font-bold text-zinc-550 uppercase tracking-widest pl-1">Final executive Directive resolution</h4>
             <div className="bg-[#161617] border border-blue-900/30 p-5 rounded-xl space-y-3">
               <div className="flex items-center gap-2 text-blue-400 font-bold text-[11px] uppercase">
                 <Sparkles className="w-4 h-4" />
@@ -996,7 +1098,7 @@ function RichOutputCard({ result }) {
       case "M15":
         return (
           <div className="space-y-4">
-            <h4 className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-1">Explainability trace log</h4>
+            <h4 className="text-[11px] font-bold text-zinc-550 uppercase tracking-widest pl-1">Explainability trace log</h4>
             <div className="bg-[#161617] border border-[#232325] p-5 rounded-xl space-y-3">
               <div className="flex items-center gap-2 text-zinc-400 font-bold text-[11px] uppercase">
                 <FileText className="w-4 h-4 text-zinc-500" />
@@ -1036,7 +1138,6 @@ function RichOutputCard({ result }) {
     }
   };
 
-
   const activeAudit = auditModules.find(m => m.id === selectedModuleId) || auditModules[0];
 
   const phaseBadgeColor = {
@@ -1063,45 +1164,52 @@ function RichOutputCard({ result }) {
         ))}
       </div>
 
-      {/* ── 1. CONTEXT EXPLANATION ── */}
+      {/* ── 1. BUSINESS CONTEXT SNAPSHOT (Top Section) ── */}
       {contextExplanation && (
-        <div className="bg-[#111213] border border-[#1e1e22] p-6 rounded-xl space-y-4">
-          <div className="text-[10px] font-bold text-zinc-500 tracking-widest uppercase">Business Context Snapshot</div>
-          <div className="text-[14px] text-zinc-300 leading-relaxed space-y-3 font-medium">
-            {contextExplanation.split('\n').filter(Boolean).map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
+        <div className="bg-[#111213] border border-[#1e1e22] p-5 rounded-xl space-y-2">
+          <div className="text-[10px] font-bold text-zinc-555 tracking-widest uppercase">Business Context Snapshot</div>
+          <p className="text-[13px] text-zinc-300 leading-relaxed font-medium font-sans">
+            {getConciseContext(contextExplanation)}
+          </p>
+        </div>
+      )}
+
+      {/* ── 2. STANDALONE EXECUTIVE ALIGNMENT (Upper-Middle Section) ── */}
+      {departments && departments.length > 0 ? (
+        <div className="bg-[#111213] border border-[#1e1e22] p-5 rounded-xl space-y-4">
+          <div className="text-[10px] font-bold text-zinc-555 tracking-widest uppercase">Departmental Stances (M06 Executive Alignment)</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {departments.map((dept, i) => {
+              const isYes = dept.status === 'yes';
+              const isNo = dept.status === 'no';
+              const badgeBg = isYes ? 'bg-emerald-955 text-emerald-400 border border-emerald-800/30' : isNo ? 'bg-red-955 text-red-400 border-red-800/30' : 'bg-zinc-800 text-zinc-400 border-zinc-700';
+              const badgeText = isYes ? 'FOR' : isNo ? 'AGAINST' : 'NEUTRAL';
+              
+              return (
+                <div key={i} className="bg-[#161617] border border-[#232325] p-4 rounded-xl flex flex-col justify-between space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[12.5px] font-bold text-white uppercase tracking-wider">{dept.name}</span>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${badgeBg}`}>
+                      {badgeText}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed font-medium" title={dept.reason}>
+                    {dept.reason}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
-      )}
-
-      {/* ── 2. KEY STATS STRIP ── */}
-      {keyStats.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {keyStats.map((stat, i) => (
-            <div key={i} className="bg-[#111213] border border-[#1e1e22] rounded-xl p-4 flex flex-col justify-between">
-              <div className="text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mb-1.5">{stat.label}</div>
-              <div className="flex items-center justify-between">
-                <span className="text-[16px] font-bold text-white font-mono">{stat.value}</span>
-                <TrendIcon trend={stat.trend} />
-              </div>
-            </div>
-          ))}
+      ) : (
+        <div className="bg-[#111213] border border-[#1e1e22] p-5 rounded-xl">
+          <div className="text-[10px] font-bold text-zinc-555 tracking-widest uppercase">Departmental Stances</div>
+          <p className="text-[12px] text-zinc-500 italic mt-2">Executive debate skipped for low-friction pathway.</p>
         </div>
       )}
 
-      {/* ── 3. STATS EXPLANATION ── */}
-      {statsExplanation && (
-        <div className="bg-[#111213] border border-[#1e1e22] p-6 rounded-xl space-y-4">
-          <div className="text-[10px] font-bold text-zinc-500 tracking-widest uppercase">Statistical & Decision Logic</div>
-          <div className="text-[14px] text-zinc-300 leading-relaxed font-medium">
-            <p>{statsExplanation}</p>
-          </div>
-        </div>
-      )}
-
-      {/* ── 4. DECISION VERDICT ── */}
-      <div className="bg-gradient-to-r from-blue-950/40 to-indigo-950/30 border border-blue-900/40 p-6 rounded-xl flex flex-col gap-3">
+      {/* ── DECISION VERDICT ── */}
+      <div className="bg-gradient-to-r from-blue-955/40 to-indigo-950/30 border border-blue-900/40 p-6 rounded-xl flex flex-col gap-3">
         <div>
           <div className="text-[10px] font-bold text-blue-400 tracking-widest uppercase mb-1.5">Decision Verdict</div>
           <div className="text-[18px] font-bold text-white leading-snug">{verdictText}</div>
@@ -1116,10 +1224,35 @@ function RichOutputCard({ result }) {
         )}
       </div>
 
-      {/* ── 5. SPACIUS ACTION PLAN ── */}
+      {/* ── KEY STATS STRIP ── */}
+      {keyStats.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {keyStats.map((stat, i) => (
+            <div key={i} className="bg-[#111213] border border-[#1e1e22] rounded-xl p-4 flex flex-col justify-between">
+              <div className="text-[10px] text-zinc-555 font-semibold uppercase tracking-wider mb-1.5">{stat.label}</div>
+              <div className="flex items-center justify-between">
+                <span className="text-[16px] font-bold text-white font-mono">{stat.value}</span>
+                <TrendIcon trend={stat.trend} />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── STATS EXPLANATION ── */}
+      {statsExplanation && (
+        <div className="bg-[#111213] border border-[#1e1e22] p-6 rounded-xl space-y-4">
+          <div className="text-[10px] font-bold text-zinc-555 tracking-widest uppercase">Statistical & Decision Logic</div>
+          <div className="text-[14px] text-zinc-300 leading-relaxed font-medium">
+            <p>{statsExplanation}</p>
+          </div>
+        </div>
+      )}
+
+      {/* ── IMMEDIATE ACTION PLAN ── */}
       {actionPlan.length > 0 && (
         <div className="bg-[#111213] border border-blue-900/30 p-6 rounded-xl space-y-4">
-          <div className="text-[10px] font-bold text-zinc-500 tracking-widest uppercase">Immediate Action Steps</div>
+          <div className="text-[10px] font-bold text-zinc-555 tracking-widest uppercase">Immediate Action Steps</div>
           <div className="space-y-4">
             {actionPlan.map((a, i) => (
               <div key={i} className="flex items-start gap-4 border-b border-[#1b1b1e] last:border-0 pb-4 last:pb-0">
@@ -1135,7 +1268,7 @@ function RichOutputCard({ result }) {
                   ) : (
                     <div className="text-[13.5px] text-zinc-300 leading-relaxed font-medium">{a.step}</div>
                   )}
-                  <div className="text-[10.5px] text-zinc-500 font-mono pt-0.5">⏱ Timeframe: {a.timeframe}</div>
+                  <div className="text-[10.5px] text-zinc-555 font-mono pt-0.5">⏱ Timeframe: {a.timeframe}</div>
                 </div>
               </div>
             ))}
@@ -1143,7 +1276,224 @@ function RichOutputCard({ result }) {
         </div>
       )}
 
-      {/* ── 6. COLLAPSIBLE DEEP AUDIT PANEL (De-congests the UI) ── */}
+      {/* ── Future Predictions Wrapper (Scenario Simulation Projections) ── */}
+      <div className="bg-[#111213] border border-[#1e1e22] rounded-2xl p-6 space-y-6">
+        <div className="flex items-center justify-between border-b border-[#1e1e22] pb-4">
+          <div className="space-y-1">
+            <h3 className="text-[15px] font-bold text-white uppercase tracking-wider">Future Predictions</h3>
+            <p className="text-[11px] text-zinc-500 font-medium">6-Month quantitative projections for different execution pathways</p>
+          </div>
+          {forecastData && (
+            <span className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${
+              {
+                BULLISH: 'text-emerald-400 bg-emerald-955/40 border-emerald-800/30',
+                BEARISH: 'text-red-400 bg-red-955/40 border-red-800/30',
+                NEUTRAL: 'text-amber-400 bg-amber-955/40 border-amber-800/30',
+              }[forecastData.market_sentiment] || 'text-zinc-400 bg-zinc-900 border-zinc-700'
+            }`}>
+              Market: {forecastData.market_sentiment}
+            </span>
+          )}
+        </div>
+
+        {forecastLoading && (
+          <div className="flex flex-col items-center justify-center py-8 space-y-2">
+            <Loader2 className="w-5 h-5 text-blue-400 animate-spin" />
+            <p className="text-[11px] text-zinc-500">Projecting live market data from Google Finance…</p>
+          </div>
+        )}
+
+        {forecastError && (
+          <div className="flex items-center gap-2 bg-red-955/20 border border-red-900/30 p-3 rounded-lg text-[11px] text-red-400">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{forecastError}</span>
+          </div>
+        )}
+
+        {forecastData && !forecastLoading && (
+          <div className="space-y-5">
+            {/* Grid of paths */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              {forecastData.scenarios.map((sc, i) => {
+                const isActive = i === activeScenarioIdx;
+                const maxConfidence = Math.max(...forecastData.scenarios.map(s => s.confidence || 0));
+                const isHighestConfidence = sc.confidence === maxConfidence && sc.confidence > 0;
+
+                const riskColors = {
+                  LOW: isActive 
+                    ? 'border-emerald-600/60 bg-emerald-955/40 text-emerald-300' 
+                    : 'border-[#232325] text-zinc-500 hover:text-emerald-400 hover:border-emerald-900/50',
+                  MEDIUM: isActive 
+                    ? 'border-amber-600/60 bg-amber-955/40 text-amber-300' 
+                    : 'border-[#232325] text-zinc-500 hover:text-amber-400 hover:border-amber-900/50',
+                  HIGH: isActive 
+                    ? 'border-red-600/60 bg-red-955/40 text-red-300' 
+                    : 'border-[#232325] text-zinc-500 hover:text-red-400 hover:border-red-900/50',
+                }[sc.risk] || '';
+
+                const highlightRing = isHighestConfidence 
+                  ? 'ring-2 ring-blue-500 shadow-lg shadow-blue-500/10 border-blue-500/50' 
+                  : '';
+
+                return (
+                  <button
+                    key={sc.id}
+                    onClick={() => setActiveScenarioIdx(i)}
+                    className={`relative flex flex-col items-center gap-1.5 p-4 rounded-xl border transition-all duration-200 ${riskColors} ${highlightRing}`}
+                  >
+                    {isHighestConfidence && (
+                      <span className="absolute -top-2.5 px-2 py-0.5 bg-blue-600 text-[8px] font-black text-white rounded-full uppercase tracking-wider shadow shadow-blue-500/30 z-10">
+                        RECOMMENDED OPTION
+                      </span>
+                    )}
+                    <span className="text-[12.5px] font-bold uppercase tracking-wide mt-1">{sc.name}</span>
+                    <span className={`text-[8.5px] font-bold px-2 py-0.5 rounded-full uppercase border ${
+                      sc.risk === 'LOW' ? 'bg-emerald-955/40 text-emerald-400 border-emerald-800/20' :
+                      sc.risk === 'MEDIUM' ? 'bg-amber-955 text-amber-400 border-amber-800/20' : 
+                      'bg-red-955 text-red-400 border-red-800/20'
+                    }`}>{sc.risk} Risk</span>
+                    <span className="text-[10px] text-zinc-400 font-mono font-semibold">{sc.confidence}% Confidence</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active scenario details */}
+            {forecastData.scenarios[activeScenarioIdx] && (
+              <div className="space-y-4">
+                <div className="bg-[#161617] border border-[#232325] px-4 py-3 rounded-xl">
+                  <p className="text-[12px] text-zinc-300 leading-relaxed font-medium">
+                    {forecastData.scenarios[activeScenarioIdx].label}
+                  </p>
+                  {forecastData.scenarios[activeScenarioIdx].breaking_assumption && (
+                    <div className="flex items-center gap-1.5 mt-2.5 text-[10.5px] text-red-400/80 font-semibold">
+                      <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>Breaking Limit: {forecastData.scenarios[activeScenarioIdx].breaking_assumption}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Metric Tab Selector */}
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    {[
+                      { id: 'revenue', label: 'Revenue', icon: TrendingUp },
+                      { id: 'pipeline', label: 'Pipeline', icon: BarChart2 },
+                      { id: 'customers', label: 'Cust. LTV', icon: Users },
+                    ].map((m) => {
+                      const Icon = m.icon;
+                      return (
+                        <button
+                          key={m.id}
+                          onClick={() => setActiveMetric(m.id)}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[10.5px] font-bold transition-all ${
+                            activeMetric === m.id
+                              ? 'bg-[#1e1e22] border-[#313235] text-white shadow-sm'
+                              : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                          }`}
+                        >
+                          <Icon className="w-3.5 h-3.5" />
+                          {m.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Chart & Churn */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2 bg-[#161617] border border-[#232325] p-4 rounded-xl space-y-3">
+                    <div className="text-[9.5px] font-bold text-zinc-555 uppercase tracking-widest">
+                      6-Month {activeMetric === 'revenue' ? 'Revenue' : activeMetric === 'pipeline' ? 'Sales Pipeline' : 'Customer LTV'} Forecast
+                    </div>
+                    <BarChart
+                      data={getMetricData(forecastData.scenarios[activeScenarioIdx])}
+                      labels={months.map(m => m.replace('Month ', 'M'))}
+                      color={forecastData.scenarios[activeScenarioIdx].color}
+                      unit="$"
+                    />
+                  </div>
+
+                  <div className="bg-[#161617] border border-[#232325] p-4 rounded-xl flex flex-col justify-between space-y-3">
+                    <div className="text-[9.5px] font-bold text-zinc-555 uppercase tracking-widest">
+                      Customer Churn Risk
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 flex-1 items-center">
+                      {forecastData.scenarios[activeScenarioIdx].churn.map((c, idx) => {
+                        const isGood = c < 4;
+                        const barColor = isGood ? 'bg-emerald-500' : c > 5 ? 'bg-red-500' : 'bg-amber-500';
+                        const textColor = isGood ? 'text-emerald-400' : c > 5 ? 'text-red-400' : 'text-amber-400';
+                        return (
+                          <div key={idx} className="flex flex-col items-center gap-1 bg-[#0d0d0e] p-2 rounded-lg border border-[#1e1e22]/50">
+                            <span className="text-[7.5px] font-bold text-zinc-555 uppercase">{months[idx]?.replace('Month ', 'M')}</span>
+                            <span className={`text-[11px] font-mono font-bold ${textColor}`}>{c}%</span>
+                            <div className="w-full h-1 bg-zinc-900 rounded-full overflow-hidden mt-0.5">
+                              <div className={`h-full rounded-full ${barColor}`} style={{ width: `${Math.min(100, c * 10)}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ── 4. FINAL INSIGHTS GRID (Bottom Section) ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Risk if Ignored */}
+        <div className="bg-[#111213] border border-red-900/20 p-5 rounded-xl space-y-3">
+          <div className="flex items-center gap-2 text-[10px] font-bold text-red-500 tracking-widest uppercase">
+            <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
+            <span>Risk if Ignored (Unmitigated Consequences)</span>
+          </div>
+          {ifIgnored && ifIgnored.length > 0 ? (
+            <div className="space-y-2">
+              {ifIgnored.map((risk, i) => (
+                <div key={i} className="flex items-start gap-2.5 text-[12.5px] text-zinc-450">
+                  <span className="text-red-500 mt-0.5">•</span>
+                  <span>{risk}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[12px] text-zinc-500 italic">No significant unmitigated risks identified.</p>
+          )}
+        </div>
+
+        {/* Friction Business Memory */}
+        <div className="bg-[#111213] border border-purple-900/20 p-5 rounded-xl space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-[10px] font-bold text-purple-400 tracking-widest uppercase">
+              <Brain className="w-3.5 h-3.5 text-purple-400" />
+              <span>Friction Business Memory</span>
+            </div>
+            {pastMemoryScore !== undefined && (
+              <span className="text-purple-400 font-mono text-[11px] font-bold bg-purple-955/40 border border-purple-800/20 px-2 py-0.5 rounded-full">
+                {Math.round(pastMemoryScore * 100)}% Match
+              </span>
+            )}
+          </div>
+          <div className="space-y-2 text-[12.5px] text-zinc-300 leading-relaxed font-sans font-medium">
+            {pastMemory ? (
+              <p className="italic">{getCleanMemory(pastMemory)}</p>
+            ) : (
+              <p className="text-zinc-500 italic">No previous matching cases in vector memory.</p>
+            )}
+            {patternMatch && (
+              <div className="text-[11px] text-purple-300 font-semibold pt-2 border-t border-purple-900/10 mt-1">
+                Pattern: {patternMatch}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── 16 MODULES AUDIT PANEL ── */}
       <div className="border border-[#1e1e22] rounded-xl overflow-hidden bg-[#0d0d0e]">
         <button onClick={() => setShowAdvanced(s => !s)}
           className="w-full flex items-center justify-between px-5 py-4 bg-[#111213] hover:bg-[#161619] transition-all text-left">
@@ -1176,7 +1526,7 @@ function RichOutputCard({ result }) {
                     >
                       <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-bold ${
                         isExecuted 
-                          ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/40' 
+                          ? 'bg-[#1c4e36] text-emerald-400 border border-emerald-800/40' 
                           : 'bg-zinc-900 text-zinc-600 border border-zinc-800/40'
                       }`}>
                         {isExecuted ? '✓' : '×'}
@@ -1197,7 +1547,7 @@ function RichOutputCard({ result }) {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-zinc-500 font-mono text-[11px] font-bold bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded">
+                      <span className="text-zinc-550 font-mono text-[11px] font-bold bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 rounded">
                         {activeAudit.id}
                       </span>
                       <h3 className="text-[15px] font-bold text-white">{activeAudit.name}</h3>
@@ -1207,7 +1557,7 @@ function RichOutputCard({ result }) {
                     </span>
                   </div>
 
-                  <p className="text-[11.5px] text-zinc-500 leading-relaxed italic border-b border-[#1b1b1e] pb-3">
+                  <p className="text-[11.5px] text-zinc-555 leading-relaxed italic border-b border-[#1b1b1e] pb-3">
                     {activeAudit.desc}
                   </p>
 
@@ -1216,7 +1566,7 @@ function RichOutputCard({ result }) {
                       <span>Status:</span>
                       <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
                         activeAudit.status === 'EXECUTED' 
-                          ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800/20' 
+                          ? 'bg-[#1c4e36] text-emerald-400 border border-emerald-800/20' 
                           : 'bg-zinc-800 text-zinc-500'
                       }`}>
                         {activeAudit.status}
@@ -1238,9 +1588,7 @@ function RichOutputCard({ result }) {
 
     </div>
   );
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
+}// ══════════════════════════════════════════════════════════════════════════════
 //  PIPELINE STEP CONFIG (16 modules from the PDF)
 // ══════════════════════════════════════════════════════════════════════════════
 const ALL_PIPELINE_STEPS = [
